@@ -3,94 +3,67 @@ __author__ = 'RafaelEsteves,SherlockLiao'
 import torch
 import torchvision
 from torch import nn
+from torch import optim
+import torch.nn.functional as F
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
 from torchvision import transforms
 from torchvision.utils import save_image
-from tqdm import tqdm
 import os
+from tqdm import tqdm
+
+if not os.path.exists('./vae_img'):
+    os.mkdir('./vae_img')
 
 
 def to_img(x):
-    x = 0.5 * (x + 1) #?
     x = x.clamp(0, 1)
-    x = x.view(x.size(0), 1, 218, 178)
+    x = x.view(x.size(0), 1, 28, 28)
     return x
 
 
-class autoencoder(nn.Module):
-    def __init__(self, args):
-        super(autoencoder, self).__init__()
+class VAE(nn.Module):
+    def __init__(self):
+        super(VAE, self).__init__()
 
-        #TODO: add skip connection, attention
-        #TODO: add option for not progressive
-        # can channels be different sizes
-        self.args = args
+        #TODO: check and rewrite
+        self.fc1 = nn.Linear(784, 400)
+        self.fc21 = nn.Linear(400, 20)
+        self.fc22 = nn.Linear(400, 20)
+        self.fc3 = nn.Linear(20, 400)
+        self.fc4 = nn.Linear(400, 784)
 
-        self.enc_layer_1 = nn.Sequential(
-            nn.Conv2d(3, 16, kernel_size=5, stride=3, padding=1),  # b, 16, h/3, w/3
-            nn.ReLU(True),
-            # nn.MaxPool2d(2, stride=2),  # b, 16, ...
-        )
-        self.enc_layer_2 = nn.Sequential(
-            nn.Conv2d(16, 4, kernel_size=3, stride=2, padding=1),  # b, 4, h/6, w/6
-            nn.ReLU(True),
-            # nn.MaxPool2d(2, stride=2),  # b, 16, ...
-        )
-        self.enc_layer_3 = nn.Sequential(
-            nn.Conv2d(4, 8, kernel_size=3, stride=2, padding=1), # b, 8, h/12, w/12
-        )
-        self.enc_layer_2_def = nn.Sequential(
-            nn.Conv2d(16, 12, kernel_size=3, stride=2, padding=1), # b, 12, h/6, w/6
-        )
+        self.forward1 = nn.Conv2d()
 
-        self.dec_layer_1 = nn.Sequential(
-            #only use this on smallest output
-            nn.ConvTranspose2d(12, 12, kernel_size=3, stride=2),  # b, 16, h/6, h/6
-            nn.ReLU(True),
-        )
-        self.dec_layer_2 = nn.Sequentia(
-            nn.ConvTranspose2d(12, 8, kernel_size=5, stride=2, padding=1),  # b, 8, h/3, w/3
-            nn.ReLU(True),
-        )
-        self.dec_layer_3 = nn.Sequential(
-            nn.ConvTranspose2d(8, 1, kernel_size=2, stride=2, padding=1),  # b, 1, h, w
-            nn.Tanh()
-        )
+    def encode(self, x):
+        h1 = F.relu(self.fc1(x))
+        return self.fc21(h1), self.fc22(h1)
 
-    def encoder(self, x):
-        out_1 = self.enc_layer_1(x)
-        if self.args.prog_grow == True:
-            out_2 = self.enc_layer_2(out_1)
-            out_3 = self.enc_layer_3(out_2)
-            embed = (out_2, out_3)
+    def reparametrize(self, mu, logvar):
+        std = logvar.mul(0.5).exp_()
+        if torch.cuda.is_available():
+            eps = torch.cuda.FloatTensor(std.size()).normal_()
         else:
-            embed = (self.enc_layer_2_def(out_1))
-        return embed
+            eps = torch.FloatTensor(std.size()).normal_()
+        eps = Variable(eps)
+        return eps.mul(std).add_(mu)
 
-    def decoder(self, x):
-        if len(x) == 2:
-            out_2, out_3 = x
-            out_2 = self.dec_layer_1(out_2)
-            out = torch.cat((out_2, out_3), dim=1)
-        else:
-            out = x
-        out = self.dec_layer_2(out)
-        recon_x = self.dec_layer_3(out)
-        return recon_x
+    def decode(self, z):
+        h3 = F.relu(self.fc3(z))
+        return F.sigmoid(self.fc4(h3))
 
     def forward(self, x):
-        z = self.encoder(x)
-        recon_x = self.decoder(z)
-        return recon_x
+        mu, logvar = self.encode(x)
+        z = self.reparametrize(mu, logvar)
+        return self.decode(z), mu, logvar
 
 
 def train(args, train_dataloader, val_dataloader, loss_function, log, example_dir):
-    model = autoencoder()
+    model = VAE()
     if torch.cuda.is_available():
         model.cuda()
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=args.lr) #weight_decay
+    optimizer = optim.Adam(model.parameters(), lr=args.lr)
 
     for epoch in range(args.num_epochs):
         log.info(f'Epoch: {epoch}')
@@ -105,8 +78,8 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
                     img = img.cuda()
                 optimizer.zero_grad()
 
-                recon_batch = model(img)
-                loss = loss_function(recon_batch, img)
+                recon_batch, mu, logvar = model(img)
+                loss = loss_function(recon_batch, img, mu, logvar)
                 loss.backward()
                 train_loss += loss.data[0]
                 optimizer.step()
