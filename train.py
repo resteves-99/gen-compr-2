@@ -86,7 +86,7 @@ def main():
     if args.type == 'VAE':
         model = vae.train(args, train_dataloader, val_dataloader, loss, example_dir)
     if args.type == 'AE':
-        model = conv_autoencoder.train(args, train_dataloader, val_dataloader, loss, example_dir)
+        model = conv_autoencoder.train(args, train_dataloader, val_dataloader, loss, log, example_dir)
 
     torch.save(model.state_dict(), save_dir+'/model_'+args.name+'.pt')
 
