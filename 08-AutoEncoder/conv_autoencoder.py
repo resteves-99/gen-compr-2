@@ -109,7 +109,7 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
                 # print(img.shape)
                 # img = img.view(img.size(0), -1)
                 # print(img.shape)
-                img.reshape_((16,3,218,178))
+                img.resize_((16,3,218,178))
                 img = Variable(img)
                 if torch.cuda.is_available():
                     img = img.cuda()
