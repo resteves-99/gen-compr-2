@@ -67,8 +67,8 @@ def main():
     if args.mnist:
         train_dataset = MNIST('./data', transform=img_transform, download=download)
     else:
-        train_dataset = CelebA('./data', split = 'train', transform=img_transform, download=download, target_type=None)
-        val_dataset = CelebA('./data', split = 'valid', transform=img_transform, download=download, target_type=None)
+        train_dataset = CelebA('./data', split = 'train', transform=img_transform, download=download)
+        val_dataset = CelebA('./data', split = 'valid', transform=img_transform, download=download)
         val_dataloader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=True)
     train_dataloader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
     log.info("Data Loaded")

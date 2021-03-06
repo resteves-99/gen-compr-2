@@ -28,44 +28,46 @@ class autoencoder(nn.Module):
         self.args = args
 
         self.enc_layer_1 = nn.Sequential(
-            nn.Conv2d(3, 16, kernel_size=5, stride=3, padding=1),  # b, 16, h/3, w/3
+            nn.Conv2d(3, 16, kernel_size=5, stride=3, padding=1),  # b, 16, 72, 59
             nn.ReLU(True),
             # nn.MaxPool2d(2, stride=2),  # b, 16, ...
         )
         self.enc_layer_2 = nn.Sequential(
-            nn.Conv2d(16, 4, kernel_size=3, stride=2, padding=1),  # b, 4, h/6, w/6
+            nn.Conv2d(16, 4, kernel_size=3, stride=2, padding=1),  # b, 4, 36, 30
             nn.ReLU(True),
             # nn.MaxPool2d(2, stride=2),  # b, 16, ...
         )
         self.enc_layer_3 = nn.Sequential(
-            nn.Conv2d(4, 8, kernel_size=3, stride=2, padding=1), # b, 8, h/12, w/12
+            nn.Conv2d(4, 8, kernel_size=3, stride=2, padding=1), # b, 8, 18, 15
         )
         self.enc_layer_2_def = nn.Sequential(
-            nn.Conv2d(16, 12, kernel_size=3, stride=2, padding=1), # b, 12, h/6, w/6
+            nn.Conv2d(16, 12, kernel_size=3, stride=2),# padding=1), # b, 12, 35, 29
         )
 
         self.dec_layer_1 = nn.Sequential(
             #only use this on smallest output
-            nn.ConvTranspose2d(12, 12, kernel_size=3, stride=2),  # b, 16, h/6, h/6
+            nn.ConvTranspose2d(12, 12, kernel_size=3, stride=2, padding=1),# padding=1),# output_padding=1),  # b, 16, 35, 29
             nn.ReLU(True),
         )
         self.dec_layer_2 = nn.Sequential(
-            nn.ConvTranspose2d(12, 8, kernel_size=5, stride=2, padding=1),  # b, 8, h/3, w/3
+            nn.ConvTranspose2d(12, 8, kernel_size=5, stride=2, padding=(1,1), output_padding=(1,1)), # padding=1),# output_padding=(1,0)),  # b, 8, 73, 61
             nn.ReLU(True),
         )
         self.dec_layer_3 = nn.Sequential(
-            nn.ConvTranspose2d(8, 1, kernel_size=2, stride=2, padding=1),  # b, 1, h, w
+            nn.ConvTranspose2d(8, 3, kernel_size=5, stride=3, padding=(1,2)),  # b, 3, 219, 185
             nn.Tanh()
         )
 
     def encoder(self, x):
         out_1 = self.enc_layer_1(x)
+        print(out_1.shape)
         if self.args.prog_grow == True:
             out_2 = self.enc_layer_2(out_1)
             out_3 = self.enc_layer_3(out_2)
             embed = (out_2, out_3)
         else:
             embed = (self.enc_layer_2_def(out_1))
+        print(embed.shape)
         return embed
 
     def decoder(self, x):
@@ -75,8 +77,11 @@ class autoencoder(nn.Module):
             out = torch.cat((out_2, out_3), dim=1)
         else:
             out = x
+        print(out.shape)
         out = self.dec_layer_2(out)
+        print(out.shape)
         recon_x = self.dec_layer_3(out)
+        print(recon_x.shape)
         return recon_x
 
     def forward(self, x):
@@ -98,21 +103,26 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
         train_loss = 0
         with torch.enable_grad(), tqdm(total=len(train_dataloader.dataset)) as progress_bar:
             for batch_idx, data in enumerate(train_dataloader):
+                print('b', batch_idx)
                 img, _ = data
-                img = img.view(img.size(0), -1)
+                print(img.shape)
+                # img = img.view(img.size(0), -1)
+                # print(img.shape)
                 img = Variable(img)
                 if torch.cuda.is_available():
                     img = img.cuda()
                 optimizer.zero_grad()
 
                 recon_batch = model(img)
+                img.resize_((16,3,216,178))
+                # recon_batch.resize_((16, 3, 218, 178))
                 loss = loss_function(recon_batch, img)
                 loss.backward()
-                train_loss += loss.data[0]
+                train_loss += loss
                 optimizer.step()
 
                 input_ids = batch_idx #batch['input_ids'].to('cuda')
-                progress_bar.update(len(input_ids))
+                progress_bar.update(input_ids)
                 progress_bar.set_postfix(epoch=epoch, NLL=loss.item())
 
                 #TODO: update logging
@@ -129,7 +139,7 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
                         epoch,
                         batch_idx * len(img),
                         len(train_dataloader.dataset), 100. * batch_idx / len(train_dataloader),
-                        loss.data[0] / len(img)))
+                        loss / len(img)))
 
         print('====> Epoch: {} Average loss: {:.4f}'.format(
             epoch, train_loss / len(train_dataloader.dataset)))
