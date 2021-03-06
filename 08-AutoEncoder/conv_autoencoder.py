@@ -103,9 +103,9 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
         train_loss = 0
         with torch.enable_grad(), tqdm(total=len(train_dataloader.dataset)) as progress_bar:
             for batch_idx, data in enumerate(train_dataloader):
-                print('b', batch_idx)
+                # print('b', batch_idx)
                 img, _ = data
-                print(img.shape)
+                # print(img.shape)
                 # img = img.view(img.size(0), -1)
                 # print(img.shape)
                 img = Variable(img)
@@ -135,13 +135,13 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
                     # # for k, v in curr_score.items():
                     # #     tbx.add_scalar(f'val/{k}', v, batch_idx)
                     # log.info(f'Eval {results_str}')
-                    print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
+                    log.info('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                         epoch,
                         batch_idx * len(img),
                         len(train_dataloader.dataset), 100. * batch_idx / len(train_dataloader),
                         loss / len(img)))
 
-        print('====> Epoch: {} Average loss: {:.4f}'.format(
+        log.info('====> Epoch: {} Average loss: {:.4f}'.format(
             epoch, train_loss / len(train_dataloader.dataset)))
         if epoch % 1 == 0:
             save = to_img(recon_batch.cpu().data)
