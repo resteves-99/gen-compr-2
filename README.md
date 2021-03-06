@@ -1,8 +1,32 @@
-pytorch
-torchvision
-tqdm
-pandas
-requests
+#installation
+run the following comands in a new conda environment
+```
+conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
+conda install pandas tqdm requests
+```
+
+#train
+to train an autoencoder model use the following command
+``` 
+python train.py --name model_name
+```
+The other possible options for training are given below
+```
+--batch-size number
+--num-epochs number
+--lr number
+--type [VAE, AE, GAN] (default AE)
+--prog-grow 
+```
+
+#test
+
+#examples
+you can find examples of reconstructed images under ```./save/model_name/examples/```
+
+#models so far
+
+#old readme
 
 ## AutoEncoder and VAE
 
