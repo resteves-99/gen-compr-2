@@ -102,7 +102,7 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
         log.info(f'Epoch: {epoch}')
         model.train() # maybe move into for loop
         train_loss = 0
-        with torch.enable_grad(), tqdm(total=len(train_dataloader.dataset)) as progress_bar:
+        with torch.enable_grad(), tqdm(total=len(enumerate(train_dataloader.dataset))) as progress_bar:
             for batch_idx, data in enumerate(train_dataloader):
                 # print('b', batch_idx)
                 img, _ = data
