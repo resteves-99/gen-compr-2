@@ -147,6 +147,6 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
             epoch, train_loss / len(train_dataloader.dataset)))
         if epoch % 1 == 0:
             save = to_img(recon_batch.cpu().data)
-            save_image(save, example_dir + f'/image_epcoh_{epoch}')
+            save_image(save, example_dir + f'/image_epcoh_{epoch}.png')
 
 
