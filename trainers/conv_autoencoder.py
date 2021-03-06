@@ -62,7 +62,7 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
                 #TODO: all models must output same size?
 
                 recon_batch = Variable(recon_batch)
-                # img.resize_((16,3,216,178))
+                img.resize_((16,3,216,178))
                 # img = Variable(img)
                 # recon_batch.resize_((16, 3, 218, 178))
 
