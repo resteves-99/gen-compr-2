@@ -73,6 +73,7 @@ class autoencoder(nn.Module):
     def decoder(self, x):
         if len(x) == 2:
             out_2, out_3 = x
+            #error
             out_2 = self.dec_layer_1(out_2)
             out = torch.cat((out_2, out_3), dim=1)
         else:
@@ -108,6 +109,7 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
                 # print(img.shape)
                 # img = img.view(img.size(0), -1)
                 # print(img.shape)
+                img.reshape_((16,3,218,178))
                 img = Variable(img)
                 if torch.cuda.is_available():
                     img = img.cuda()
@@ -126,20 +128,20 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
                 progress_bar.set_postfix(epoch=epoch, NLL=loss.item())
 
                 #TODO: update logging
-                if batch_idx % 100 == 0:
-                    # log.info(f'Evaluating at step {batch_idx}...')
-                    # # preds, curr_score = self.evaluate(model, eval_dataloader, val_dict, return_preds=True)
-                    # # results_str = ', '.join(f'{k}: {v:05.2f}' for k, v in curr_score.items())
-                    #
-                    # # log.info('Visualizing in TensorBoard...')
-                    # # for k, v in curr_score.items():
-                    # #     tbx.add_scalar(f'val/{k}', v, batch_idx)
-                    # log.info(f'Eval {results_str}')
-                    log.info('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
-                        epoch,
-                        batch_idx * len(img),
-                        len(train_dataloader.dataset), 100. * batch_idx / len(train_dataloader),
-                        loss / len(img)))
+                # if batch_idx % 100 == 0:
+                #     # log.info(f'Evaluating at step {batch_idx}...')
+                #     # # preds, curr_score = self.evaluate(model, eval_dataloader, val_dict, return_preds=True)
+                #     # # results_str = ', '.join(f'{k}: {v:05.2f}' for k, v in curr_score.items())
+                #     #
+                #     # # log.info('Visualizing in TensorBoard...')
+                #     # # for k, v in curr_score.items():
+                #     # #     tbx.add_scalar(f'val/{k}', v, batch_idx)
+                #     # log.info(f'Eval {results_str}')
+                #     log.info('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
+                #         epoch,
+                #         batch_idx * len(img),
+                #         len(train_dataloader.dataset), 100. * batch_idx / len(train_dataloader),
+                #         loss / len(img)))
 
         log.info('====> Epoch: {} Average loss: {:.4f}'.format(
             epoch, train_loss / len(train_dataloader.dataset)))
