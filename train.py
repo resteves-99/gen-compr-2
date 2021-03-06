@@ -10,14 +10,11 @@ from torchvision.utils import save_image
 from torchvision.datasets import CelebA, MNIST
 
 import sys
-sys.path.insert(0, '08-AutoEncoder')
-sys.path.insert(0, '09-Generative Adversarial network')
 import os
 from args import get_train_test_args
 import utils
 import json
-import vae
-import conv_autoencoder
+import trainers.conv_autoencoder as conv_autoencoder
 
 
 

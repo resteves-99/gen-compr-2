@@ -72,5 +72,5 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
             save = to_img(recon_batch.cpu().data)
             save_image(save, example_dir + f'/image_epcoh_{epoch}.png')
 
-
+    #finished training
     return model
