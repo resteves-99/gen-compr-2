@@ -60,14 +60,14 @@ class autoencoder(nn.Module):
 
     def encoder(self, x):
         out_1 = self.enc_layer_1(x)
-        print(out_1.shape)
+        # print(out_1.shape)
         if self.args.prog_grow == True:
             out_2 = self.enc_layer_2(out_1)
             out_3 = self.enc_layer_3(out_2)
             embed = (out_2, out_3)
         else:
             embed = (self.enc_layer_2_def(out_1))
-        print(embed.shape)
+        # print(embed.shape)
         return embed
 
     def decoder(self, x):
@@ -77,11 +77,11 @@ class autoencoder(nn.Module):
             out = torch.cat((out_2, out_3), dim=1)
         else:
             out = x
-        print(out.shape)
+        # print(out.shape)
         out = self.dec_layer_2(out)
-        print(out.shape)
+        # print(out.shape)
         recon_x = self.dec_layer_3(out)
-        print(recon_x.shape)
+        # print(recon_x.shape)
         return recon_x
 
     def forward(self, x):
