@@ -74,14 +74,15 @@ def main():
     #set up loss
     loss = None
     if args.type in ['ae_base', 'ae_exp', 'ae_small']:
-        loss = nn.MSELoss()
+        loss = nn.BCELoss()
 
     #do training
-    model = None
+    gen_model = None
+    disc_model = None
     if args.type in ['ae_base', 'ae_exp', 'ae_small']:
-        model = conv_autoencoder.train(args, train_dataloader, val_dataloader, loss, log, example_dir)
+        gen_model, disc_model = conv_autoencoder.train(args, train_dataloader, val_dataloader, loss, log, example_dir)
 
-    torch.save(model.state_dict(), save_dir+'/model_'+args.name+'.pt')
+    torch.save(gen_model.state_dict(), save_dir+'/model_'+args.name+'.pt')
 
 if __name__ == '__main__':
     main()
