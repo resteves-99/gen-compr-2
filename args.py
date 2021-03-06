@@ -6,7 +6,7 @@ def get_train_test_args():
     parser.add_argument('--num-epochs', type=int, default=3)
     parser.add_argument('--lr', type=float, default=3e-5)
 
-    parser.add_argument('--type', type=str, choices='VAE, AE, GAN', default='AE')
+    parser.add_argument('--type', type=str, choices='ae_base, ae_exp, ae_small', default='ae_base')
     parser.add_argument('--mnist', action='store_true')
     parser.add_argument('--prog-grow', action='store_true')
     # parser.add_argument('--use-linear', action='')

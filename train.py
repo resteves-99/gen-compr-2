@@ -76,16 +76,12 @@ def main():
 
     #set up loss
     loss = None
-    if args.type == 'VAE':
-        loss = vae_loss_function
-    if args.type == 'AE':
+    if args.type in ['ae_base', 'ae_exp', 'ae_small']:
         loss = nn.MSELoss()
 
     #do training
     model = None
-    if args.type == 'VAE':
-        model = vae.train(args, train_dataloader, val_dataloader, loss, example_dir)
-    if args.type == 'AE':
+    if args.type in ['ae_base', 'ae_exp', 'ae_small']:
         model = conv_autoencoder.train(args, train_dataloader, val_dataloader, loss, log, example_dir)
 
     torch.save(model.state_dict(), save_dir+'/model_'+args.name+'.pt')
