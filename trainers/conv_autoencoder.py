@@ -82,7 +82,7 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
                 #calc gen loss and train
                 g_loss = loss_function(fake_output, real_label)
                 gen_optimizer.zero_grad()
-                g_loss.backward(retain_graph=True)
+                g_loss.backward()
                 gen_optimizer.step()
 
 
