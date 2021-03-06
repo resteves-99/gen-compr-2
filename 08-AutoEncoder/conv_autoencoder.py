@@ -49,7 +49,7 @@ class autoencoder(nn.Module):
             nn.ConvTranspose2d(12, 12, kernel_size=3, stride=2),  # b, 16, h/6, h/6
             nn.ReLU(True),
         )
-        self.dec_layer_2 = nn.Sequentia(
+        self.dec_layer_2 = nn.Sequential(
             nn.ConvTranspose2d(12, 8, kernel_size=5, stride=2, padding=1),  # b, 8, h/3, w/3
             nn.ReLU(True),
         )
@@ -86,7 +86,7 @@ class autoencoder(nn.Module):
 
 
 def train(args, train_dataloader, val_dataloader, loss_function, log, example_dir):
-    model = autoencoder()
+    model = autoencoder(args)
     if torch.cuda.is_available():
         model.cuda()
 
