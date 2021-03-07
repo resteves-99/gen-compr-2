@@ -11,6 +11,8 @@ def get_train_test_args():
     parser.add_argument('--prog-grow', action='store_true')
     # parser.add_argument('--use-linear', action='')
 
+    parser.add_argument('--load_dir', type=str, default=None)
+
     parser.add_argument('--name', type=str, default=None)
     args = parser.parse_args()
     return args

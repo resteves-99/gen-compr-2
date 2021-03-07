@@ -5,11 +5,10 @@ class experimental_autoencoder(nn.Module):
     def __init__(self, args):
         super(experimental_autoencoder, self).__init__()
 
-        #TODO: add skip connection, attention
-        #TODO: add option for not progressive
-        # can channels be different sizes
         self.args = args
-
+        #TODO: kernel size
+        #TODO: stride
+        #TODO: bpp
         self.enc_layer_1 = nn.Sequential(
             nn.Conv2d(3, 16, kernel_size=5, stride=3, padding=1),  # b, 16, 72, 59
             nn.ReLU(True),

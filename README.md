@@ -15,16 +15,23 @@ The other possible options for training are given below
 --batch-size number
 --num-epochs number
 --lr number
---type [VAE, AE, GAN] (default AE)
---prog-grow 
+--type [ae_base, ae_exp, ae_small] default ae_base
 ```
 
 # test
+unfortunately I haven't been saving my discriminator models to disk so I cant actually calculate loss on the test set.
 
 # examples
 you can find examples of reconstructed images under ```./save/model_name/examples/```
 
 # models so far
+ae_base is a baseline model which embeds images into a larger size than our experimental model.
+ae_exp is our experimental model.\
+ae_small is a baseline model which embeds images into a smaller size than our experimental mode.\\
+\
+\
+All of these models are composed of an encoder, a decoder, and a discriminator.\
+The differences between these models is further specified in my writeup.
 
 # old readme
 

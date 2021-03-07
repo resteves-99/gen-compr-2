@@ -26,7 +26,6 @@ class VAE(nn.Module):
     def __init__(self):
         super(VAE, self).__init__()
 
-        #TODO: check and rewrite
         self.fc1 = nn.Linear(784, 400)
         self.fc21 = nn.Linear(400, 20)
         self.fc22 = nn.Linear(400, 20)
@@ -88,7 +87,6 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
                 progress_bar.update(len(input_ids))
                 progress_bar.set_postfix(epoch=epoch, NLL=loss.item())
 
-                #TODO: update logging
                 if batch_idx % 100 == 0:
                     # log.info(f'Evaluating at step {batch_idx}...')
                     # # preds, curr_score = self.evaluate(model, eval_dataloader, val_dict, return_preds=True)
