@@ -69,7 +69,7 @@ class baseline_discriminator(nn.Module):
 
     def forward(self, x):
         '''
-        x: batch, width, height, channel=1
+        x: batch, channel, height, width
         '''
         x = self.conv1(x)
         x = self.conv2(x)
