@@ -53,14 +53,22 @@ def gen_loss(args, gen, disc, criterion, real_images):
 
 def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, save_dir):
     #init model
-    gen_model = baseline_autoencoder(args)
-    disc_model = baseline_discriminator(args)
-    if args.type == 'ae_exp':
+    if args.type == 'ae_base':
+        gen_model = baseline_autoencoder(args)
+        disc_model = baseline_discriminator(args)
+    elif args.type == 'ae_exp':
         gen_model = experimental_autoencoder(args)
         disc_model = experimental_discriminator(args)
     elif args.type == 'ae_small':
         gen_model = small_autoencoder(args)
         disc_model = small_discriminator(args)
+    if args.load_dir is not None:
+        gen_dir = os.path.join(args.load_dir, 'gen_model.pt')
+        gen_model.load_state_dict(torch.load(gen_dir))
+        disc_dir = os.path.join(args.load_dir, 'disc_model.pt')
+        disc_model.load_state_dict(torch.load(disc_dir))
+        log.info("Continuing training based on ", args.load_dir)
+
     if torch.cuda.is_available():
         gen_model.cuda()
         disc_model.cuda()
@@ -78,6 +86,8 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, s
         with torch.enable_grad(), tqdm(total=51750051) as progress_bar:
             torch.autograd.set_detect_anomaly(True)
             for batch_idx, data in enumerate(train_dataloader):
+                #TODO: check why images weird
+
                 # process batch
                 real_image, _ = data
                 real_image.resize_((args.batch_size,3,218,178))
@@ -107,7 +117,6 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, s
                 train_loss += (float(g_loss), float(d_loss))
                 index += 1
 
-                #TODO: update logging
 
         #end of epcoh logging
         log.info('====> Epoch: {} Average gen loss: {:.4f} Average Dis Loss: {:.4f}'.format(
@@ -119,7 +128,8 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, s
             save = real_image.cpu().data
             save_image(save, example_dir + f'/real_image_epcoh_{epoch}.png')
         if epoch % 10 == 0:
-            torch.save(gen_model.state_dict(), save_dir + '/model_' + args.name + '.pt')
+            torch.save(gen_model.state_dict(), save_dir + '/gen_model.pt')
+            torch.save(disc_model.state_dict(), save_dir + '/disc_model.pt')
 
 
     #finished training
