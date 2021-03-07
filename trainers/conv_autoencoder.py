@@ -97,8 +97,8 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
                 #TODO: update logging
 
         #end of epcoh logging
-        log.info('====> Epoch: {} Average loss: {:.4f}'.format(
-            epoch, train_loss / len(train_dataloader.dataset)))
+        log.info('====> Epoch: {} Average gen loss: {:.4f} Average Dis Loss: {:.4f}'.format(
+            epoch, train_loss[0] / len(train_dataloader.dataset), train_loss[1] / len(train_dataloader.dataset)))
         if epoch % 5 == 0:
             save = to_img(recon_batch.cpu().data)
             save_image(save, example_dir + f'/recon_image_epcoh_{epoch}.png')
