@@ -51,7 +51,7 @@ def gen_loss(args, gen, disc, criterion, real_images):
     return gen_loss, fake_images
 
 
-def train(args, train_dataloader, val_dataloader, criterion, log, example_dir):
+def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, save_dir):
     #init model
     gen_model = baseline_autoencoder(args)
     disc_model = baseline_discriminator(args)
@@ -75,7 +75,7 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir):
         disc_model.train()
         train_loss = (0,0)
         index = 0
-        with torch.enable_grad(), tqdm(total=50152000) as progress_bar:
+        with torch.enable_grad(), tqdm(total=5175005) as progress_bar:
             torch.autograd.set_detect_anomaly(True)
             for batch_idx, data in enumerate(train_dataloader):
                 # process batch
@@ -112,12 +112,14 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir):
         #end of epcoh logging
         log.info('====> Epoch: {} Average gen loss: {:.4f} Average Dis Loss: {:.4f}'.format(
             epoch, train_loss[0] / len(train_dataloader.dataset), train_loss[1] / len(train_dataloader.dataset)))
-        if epoch % 5 == 0:
+        if epoch % 2 == 0:
             save = to_real_image(recon_batch.cpu().data)
             save_image(save, example_dir + f'/recon_image_epcoh_{epoch}.png')
 
             save = to_real_image(real_image.cpu().data)
             save_image(save, example_dir + f'/real_image_epcoh_{epoch}.png')
+        if epoch % 10 == 0:
+            torch.save(gen_model.state_dict(), save_dir + '/model_' + args.name + '.pt')
 
 
     #finished training

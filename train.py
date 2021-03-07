@@ -80,7 +80,7 @@ def main():
     gen_model = None
     disc_model = None
     if args.type in ['ae_base', 'ae_exp', 'ae_small']:
-        gen_model, disc_model = conv_autoencoder.train(args, train_dataloader, val_dataloader, loss, log, example_dir)
+        gen_model, disc_model = conv_autoencoder.train(args, train_dataloader, val_dataloader, loss, log, example_dir, save_dir)
 
     torch.save(gen_model.state_dict(), save_dir+'/model_'+args.name+'.pt')
 
