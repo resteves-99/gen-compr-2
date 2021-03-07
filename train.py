@@ -11,7 +11,7 @@ from torchvision.datasets import CelebA, MNIST
 
 import sys
 import os
-from args import get_train_test_args
+from args import get_train_args
 import utils
 import json
 import trainers.conv_autoencoder as conv_autoencoder
@@ -35,7 +35,7 @@ def vae_loss_function(recon_x, x, mu, logvar):
     return BCE + KLD
 
 def main():
-    args = get_train_test_args()
+    args = get_train_args()
 
     #set up save directory
     save_dir = os.path.join('./save', args.name)
@@ -51,6 +51,7 @@ def main():
     log.info(f'Args: {json.dumps(vars(args), indent=4, sort_keys=True)}')
     log.info("Preparing Training Data...")
     # args.device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+
 
     #set up data loader
     img_transform = transforms.Compose([
