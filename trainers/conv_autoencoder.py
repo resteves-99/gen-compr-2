@@ -9,7 +9,7 @@ from torchvision import transforms
 from torchvision.utils import save_image
 from tqdm import tqdm
 from models.ae_experimental import experimental_autoencoder, experimental_discriminator
-from models.ae_short import small_autoencoder, small_discriminator
+from models.ae_short import small_autoencoder
 from models.ae_baseline import baseline_autoencoder, baseline_discriminator
 import os
 
@@ -19,7 +19,6 @@ def to_img(x):
     x = x.clamp(0, 1)
     x = x.view(x.size(0), 3, 216, 178)
     return x
-
 
 def train(args, train_dataloader, val_dataloader, loss_function, log, example_dir):
     #init model
@@ -63,7 +62,7 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
                 #process batch again
                 #TODO: all models must output same size?
 
-                recon_batch = Variable(recon_batch)
+                # recon_batch = Variable(recon_batch)
                 tgt_size = [args.batch_size]
                 for elem in list(recon_batch.shape[1:]): tgt_size.append(elem)
                 img.resize_(tgt_size)
@@ -73,9 +72,11 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
 
                 #run discriminator
                 real_output = disc_model(img)
-                fake_output = disc_model(recon_batch)
+                fake_output = disc_model(recon_batch.detach())
 
                 #calc discriminator loss and train
+                print('fake', fake_output.tolist())
+                print('rea', real_output.tolist())
                 d_loss_fake = loss_function(fake_output, fake_label)
                 d_loss_real = loss_function(real_output, real_label)
                 d_loss = d_loss_real + d_loss_fake
@@ -86,16 +87,18 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
                     # fake_output = disc_model(recon_batch)
 
                 #calc gen loss and train
+                recon_batch = gen_model(recon_batch)
+                fake_output = disc_model(recon_batch)
                 g_loss = loss_function(fake_output, real_label)
                 gen_optimizer.zero_grad()
-                g_loss.backward()
+                g_loss.backward(retain_graph=True)
                 gen_optimizer.step()
 
 
                 #logging
                 input_ids = batch_idx #batch['input_ids'].to('cuda')
                 progress_bar.update(index)
-                progress_bar.set_postfix(epoch=epoch, Gen_Loss=float(g_loss), Disc_Loss=float(d_loss))
+                progress_bar.set_postfix(epoch=epoch, Gen_Loss=float(g_loss), Disc_Loss=(float(d_loss_fake), float(d_loss_real)))
                 train_loss += (float(g_loss), float(d_loss))
                 index += 1
 
