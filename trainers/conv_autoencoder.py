@@ -8,8 +8,8 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 from torchvision.utils import save_image
 from tqdm import tqdm
-from models.ae_experimental import experimental_autoencoder
-from models.ae_short import small_autoencoder
+from models.ae_experimental import experimental_autoencoder, experimental_discriminator
+from models.ae_short import small_autoencoder, small_discriminator
 from models.ae_baseline import baseline_autoencoder, baseline_discriminator
 import os
 
@@ -26,9 +26,11 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
     gen_model = baseline_autoencoder(args)
     disc_model = baseline_discriminator(args)
     if args.type == 'ae_exp':
-        model = experimental_autoencoder(args)
+        gen_model = experimental_autoencoder(args)
+        disc_model = experimental_discriminator(args)
     elif args.type == 'ae_small':
-        model = small_autoencoder(args)
+        gen_model = small_autoencoder(args)
+        disc_model = small_discriminator(args)
     if torch.cuda.is_available():
         gen_model.cuda()
         disc_model.cuda()
@@ -62,7 +64,10 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
                 #TODO: all models must output same size?
 
                 recon_batch = Variable(recon_batch)
-                img.resize_((16,3,216,178))
+                tgt_size = [args.batch_size]
+                for elem in list(recon_batch.shape[1:]): tgt_size.append(elem)
+                img.resize_(tgt_size)
+                assert img.shape == recon_batch.shape
                 # img = Variable(img)
                 # recon_batch.resize_((16, 3, 218, 178))
 
