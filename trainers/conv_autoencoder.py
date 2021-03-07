@@ -9,7 +9,7 @@ from torchvision import transforms
 from torchvision.utils import save_image
 from tqdm import tqdm
 from models.ae_experimental import experimental_autoencoder, experimental_discriminator
-from models.ae_short import small_autoencoder
+from models.ae_short import small_autoencoder, small_discriminator
 from models.ae_baseline import baseline_autoencoder, baseline_discriminator
 import os
 
@@ -60,7 +60,7 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, s
         disc_model = experimental_discriminator(args)
     elif args.type == 'ae_small':
         gen_model = small_autoencoder(args)
-        # disc_model = small_discriminator(args)
+        disc_model = small_discriminator(args)
     if torch.cuda.is_available():
         gen_model.cuda()
         disc_model.cuda()
@@ -75,7 +75,7 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, s
         disc_model.train()
         train_loss = (0,0)
         index = 0
-        with torch.enable_grad(), tqdm(total=5175005) as progress_bar:
+        with torch.enable_grad(), tqdm(total=51750051) as progress_bar:
             torch.autograd.set_detect_anomaly(True)
             for batch_idx, data in enumerate(train_dataloader):
                 # process batch
