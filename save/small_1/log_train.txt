@@ -70,3 +70,5 @@
 [03.07.21 18:15:14] Epoch: 29
 [03.07.21 18:36:06] ====> Epoch: 29 Average gen loss: 0.0000 Average Dis Loss: 0.0000
 [03.07.21 18:36:06] Epoch: 30
+[03.07.21 18:56:56] ====> Epoch: 30 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.07.21 18:56:56] Epoch: 31
