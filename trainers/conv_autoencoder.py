@@ -39,9 +39,6 @@ def disc_loss(args, gen, disc, criterion, real_images):
     real_loss = criterion(real_preds, real_label)
     disc_loss = 0.5*(fake_loss + real_loss)
 
-    print('fake ', fake_preds.tolist())
-    print('real ', real_preds.tolist())
-
     return fake_loss, real_loss
 
 def gen_loss(args, gen, disc, criterion, real_images):
