@@ -78,7 +78,7 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir):
         disc_model.train()
         train_loss = (0,0)
         index = 0
-        with torch.enable_grad(), tqdm(total=152000) as progress_bar:
+        with torch.enable_grad(), tqdm(total=50152000) as progress_bar:
             torch.autograd.set_detect_anomaly(True)
             for batch_idx, data in enumerate(train_dataloader):
                 # process batch
