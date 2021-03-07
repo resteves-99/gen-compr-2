@@ -78,6 +78,7 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
                     disc_optimizer.zero_grad()
                     d_loss.backward(retain_graph=True)
                     disc_optimizer.step()
+                    # fake_output = disc_model(recon_batch)
 
                 #calc gen loss and train
                 g_loss = loss_function(fake_output, real_label)
@@ -89,8 +90,8 @@ def train(args, train_dataloader, val_dataloader, loss_function, log, example_di
                 #logging
                 input_ids = batch_idx #batch['input_ids'].to('cuda')
                 progress_bar.update(index)
-                progress_bar.set_postfix(epoch=epoch, Gen_Loss=g_loss, Disc_Loss=d_loss)
-                train_loss += (g_loss, d_loss)
+                progress_bar.set_postfix(epoch=epoch, Gen_Loss=float(g_loss), Disc_Loss=float(d_loss))
+                train_loss += (float(g_loss), float(d_loss))
                 index += 1
 
                 #TODO: update logging

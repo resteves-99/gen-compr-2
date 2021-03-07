@@ -74,7 +74,6 @@ class baseline_discriminator(nn.Module):
         x = self.conv1(x)
         x = self.conv2(x)
         x = self.conv3(x)
-        print(x.size())
         x = x.view(x.size(0), -1)
         x = self.fc(x)
         return x.squeeze()
