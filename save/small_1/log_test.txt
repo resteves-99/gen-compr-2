@@ -1,0 +1,18 @@
+[03.08.21 03:12:03] Args: {
+    "batch_size": 16,
+    "load_dir": "model_small_1.pt",
+    "name": "small_1",
+    "split": "test",
+    "type": "ae_small"
+}
+[03.08.21 03:12:03] Preparing Testing Data...
+[03.08.21 03:12:06] Data Loaded
+[03.08.21 03:12:19] Args: {
+    "batch_size": 16,
+    "load_dir": "save/small_1/model_small_1.pt",
+    "name": "small_1",
+    "split": "test",
+    "type": "ae_small"
+}
+[03.08.21 03:12:19] Preparing Testing Data...
+[03.08.21 03:12:22] Data Loaded
