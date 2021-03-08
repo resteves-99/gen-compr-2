@@ -22,6 +22,7 @@ def main():
     args = get_train_args()
 
     #set up save directory
+    args.name = 'test'
     save_dir = os.path.join('./save', args.name)
     log_dir = os.path.join(save_dir, 'logging')
     example_dir = os.path.join(save_dir, 'examples')
@@ -64,7 +65,7 @@ def main():
 
     #save models
     #TODO: change this
-    torch.save(gen_model.state_dict(), save_dir+'/model_gen.pt')
+    torch.save(gen_model.state_dict(), save_dir+'/gen_model.pt')
 
 if __name__ == '__main__':
     main()

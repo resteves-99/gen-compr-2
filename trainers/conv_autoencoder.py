@@ -12,11 +12,14 @@ from models.ae_experimental import experimental_autoencoder, experimental_discri
 from models.ae_short import small_autoencoder, small_discriminator
 from models.ae_baseline import baseline_autoencoder, baseline_discriminator
 import os
+import copy
+import matplotlib.pyplot as plt
 
 
-def disc_loss(args, gen, disc, criterion, real_images):
+def disc_loss(args, gen, disc, criterion, real_image):
     real_label = torch.ones(args.batch_size, device='cuda')
     fake_label = torch.zeros(args.batch_size, device='cuda')
+    real_images = copy.copy(real_image)
 
     #get reconstructed images
     fake_images = gen(real_images).detach()
@@ -24,7 +27,7 @@ def disc_loss(args, gen, disc, criterion, real_images):
     #reshape target so it is same size as reconstruction
     tgt_size = [args.batch_size]
     for elem in list(fake_images.shape[1:]): tgt_size.append(elem)
-    real_images.resize_(tgt_size)
+    real_images = real_images[:,:,:fake_images.shape[2],:fake_images.shape[3]]
     assert real_images.shape == fake_images.shape
 
     #predict for both real and reconstructed images
@@ -38,8 +41,9 @@ def disc_loss(args, gen, disc, criterion, real_images):
 
     return fake_loss, real_loss
 
-def gen_loss(args, gen, disc, criterion, real_images):
+def gen_loss(args, gen, disc, criterion, real_image):
     real_label = torch.ones(args.batch_size).cuda()
+    real_images = copy.copy(real_image)
 
     #generate fake images and make predictions on them
     fake_images = gen(real_images)
@@ -86,10 +90,16 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, s
         with torch.enable_grad(), tqdm(total=51750051) as progress_bar:
             torch.autograd.set_detect_anomaly(True)
             for batch_idx, data in enumerate(train_dataloader):
-                #TODO: check why images weird
-
                 # process batch
                 real_image, _ = data
+
+                #check image
+                first_image = real_image[0,:,:,:]
+                first_image = first_image.squeeze()
+                first_image = first_image.permute(1,2,0)
+                plt.imshow(first_image)
+                plt.show()
+
                 real_image.resize_((args.batch_size,3,218,178))
                 if torch.cuda.is_available():
                     real_image = real_image.cuda()
@@ -115,6 +125,7 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, s
                 progress_bar.set_postfix(epoch=epoch, Gen_Loss=float(g_loss), Disc_Loss=(float(fake_loss), float(real_loss)))
                 train_loss += (float(g_loss), float(d_loss))
                 index += 1
+                break
 
 
         #end of epcoh logging. average losses, save image examples, save model
