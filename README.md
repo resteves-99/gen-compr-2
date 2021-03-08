@@ -19,10 +19,15 @@ The other possible options for training are given below
 ```
 
 # test
+to see an example output from the test set run \
+```
+python eval.py --name model_name --load-dir dir_to_gen_model
+```
 unfortunately I haven't been saving my discriminator models to disk so I cant actually calculate loss on the test set.
 
 # examples
 you can find examples of reconstructed images under ```./save/model_name/examples/```
+I have uploaded examples for the models described below\
 
 # models so far
 ae_base is a baseline model which embeds images into a larger size than our experimental model.
