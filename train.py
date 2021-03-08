@@ -18,22 +18,6 @@ import trainers.conv_autoencoder as conv_autoencoder
 
 
 
-def vae_loss_function(recon_x, x, mu, logvar):
-    """
-    recon_x: generating images
-    x: origin images
-    mu: latent mean
-    logvar: latent log variance
-    """
-
-    reconstruction_function = nn.MSELoss(size_average=False)
-    BCE = reconstruction_function(recon_x, x)  # mse loss
-    # loss = 0.5 * sum(1 + log(sigma^2) - mu^2 - sigma^2)
-    KLD_element = mu.pow(2).add_(logvar.exp()).mul_(-1).add_(1).add_(logvar)
-    KLD = torch.sum(KLD_element).mul_(-0.5)
-    # KL divergence
-    return BCE + KLD
-
 def main():
     args = get_train_test_args()
 
@@ -58,17 +42,12 @@ def main():
         # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ])
     download = True
-
-    # if os.path.exists('./data/celeba'):
-    #     download = False
-    if args.mnist:
-        train_dataset = MNIST('./data', transform=img_transform, download=download)
-    else:
-        train_dataset = CelebA('./data', split = 'train', transform=img_transform, download=download)
-        val_dataset = CelebA('./data', split = 'valid', transform=img_transform, download=download)
-        val_dataloader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=True)
+    train_dataset = CelebA('./data', split = 'train', transform=img_transform, download=download)
+    val_dataset = CelebA('./data', split = 'valid', transform=img_transform, download=download)
+    val_dataloader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=True)
     train_dataloader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
     log.info("Data Loaded")
+    # I do not use the validation data loader yet but I might implement this in training later
 
 
     #set up loss
@@ -82,7 +61,9 @@ def main():
     if args.type in ['ae_base', 'ae_exp', 'ae_small']:
         gen_model, disc_model = conv_autoencoder.train(args, train_dataloader, val_dataloader, loss, log, example_dir, save_dir)
 
-    torch.save(gen_model.state_dict(), save_dir+'/model_'+args.name+'.pt')
+    #save models
+    #TODO: change this
+    torch.save(gen_model.state_dict(), save_dir+'/model_gen.pt')
 
 if __name__ == '__main__':
     main()
