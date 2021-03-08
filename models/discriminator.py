@@ -1,5 +1,6 @@
 import torch.nn as nn
 
+#base discriminator. not used
 class discriminator(nn.Module):
     def __init__(self):
         super(discriminator, self).__init__()
