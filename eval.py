@@ -31,7 +31,7 @@ def main():
         transforms.ToTensor()
         # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ])
-    test_dataset = CelebA('./data', split = 'test', transform=img_transform, download=True, target_type=None)
+    test_dataset = CelebA('./data', split = args.split, transform=img_transform, download=True, target_type=None)
     test_dataloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=True)
     log.info("Data Loaded")
 

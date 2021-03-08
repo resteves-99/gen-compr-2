@@ -22,6 +22,8 @@ def get_eval_args():
 
     parser.add_argument('--load_dir', type=str, default=None)
 
+    parser.add_argument('--split', type=str, choices=['test', 'valid'], default='test')
+
     parser.add_argument('--name', type=str, default=None)
     args = parser.parse_args()
     return args
