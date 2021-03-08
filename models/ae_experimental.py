@@ -5,10 +5,15 @@ class experimental_autoencoder(nn.Module):
     def __init__(self, args):
         super(experimental_autoencoder, self).__init__()
 
-        self.args = args
         #TODO: kernel size
         #TODO: stride
         #TODO: bpp
+        #TODO: add attention
+
+
+        self.args = args
+
+        #initialize encoding layers
         self.enc_layer_1 = nn.Sequential(
             nn.Conv2d(3, 16, kernel_size=5, stride=3, padding=1),  # b, 16, 72, 59
             nn.ReLU(True),
@@ -22,7 +27,9 @@ class experimental_autoencoder(nn.Module):
         self.enc_layer_3 = nn.Sequential(
             nn.Conv2d(4, 8, kernel_size=3, stride=2, padding=1), # b, 8, 18, 15
         )
+        #construct both a large and small embedding
 
+        #initialize decoding layers
         self.dec_layer_1 = nn.Sequential(
             #only use this on smallest output
             nn.ConvTranspose2d(8, 8, kernel_size=3, stride=2, padding=1, output_padding=1),# padding=1),# output_padding=1),  # b, 16, 36, 30
@@ -47,14 +54,16 @@ class experimental_autoencoder(nn.Module):
 
     def decoder(self, x):
         out_2, out_3 = x
-        #error???
+        #take smaller encoding and make it same size as bigger encoding
         out_3 = self.dec_layer_1(out_3)
+        #join the two encodings along the channel dimension
         out = torch.cat((out_2, out_3), dim=1)
         out = self.dec_layer_2(out)
         recon_x = self.dec_layer_3(out)
         return recon_x
 
     def forward(self, x):
+        #encode then reconstruct
         z = self.encoder(x)
         recon_x = self.decoder(z)
         return recon_x
@@ -62,6 +71,8 @@ class experimental_autoencoder(nn.Module):
 class experimental_discriminator(nn.Module):
     def __init__(self, args):
         super(experimental_discriminator, self).__init__()
+
+        #construct discriminator
         self.conv1 = nn.Sequential(
             nn.Conv2d(3, 32, kernel_size=5, padding=2),  # batch, 32, 218, 178
             nn.LeakyReLU(0.2, True),
@@ -91,6 +102,7 @@ class experimental_discriminator(nn.Module):
         x = self.conv1(x)
         x = self.conv2(x)
         x = self.conv3(x)
+        #flatten for fully connected layer
         x = x.view(x.size(0), -1)
         x = self.fc(x)
         return x.squeeze()

@@ -14,27 +14,24 @@ from models.ae_baseline import baseline_autoencoder, baseline_discriminator
 import os
 
 
-def to_real_image(x):
-    x = 0.5 * (x + 1) #?
-    x = x.clamp(0, 1)
-    # x = x.view(x.size(0), 3, 216, 178)
-    return x
-
 def disc_loss(args, gen, disc, criterion, real_images):
     real_label = torch.ones(args.batch_size, device='cuda')
     fake_label = torch.zeros(args.batch_size, device='cuda')
 
+    #get reconstructed images
     fake_images = gen(real_images).detach()
 
-    #reshape target
+    #reshape target so it is same size as reconstruction
     tgt_size = [args.batch_size]
     for elem in list(fake_images.shape[1:]): tgt_size.append(elem)
     real_images.resize_(tgt_size)
     assert real_images.shape == fake_images.shape
 
+    #predict for both real and reconstructed images
     fake_preds = disc(fake_images)
     real_preds = disc(real_images)
 
+    #compare predictions with target label
     fake_loss = criterion(fake_preds, fake_label)
     real_loss = criterion(real_preds, real_label)
     disc_loss = 0.5*(fake_loss + real_loss)
@@ -44,25 +41,28 @@ def disc_loss(args, gen, disc, criterion, real_images):
 def gen_loss(args, gen, disc, criterion, real_images):
     real_label = torch.ones(args.batch_size).cuda()
 
+    #generate fake images and make predictions on them
     fake_images = gen(real_images)
     fake_preds = disc(fake_images)
+
+    #compare predictions with target label
     gen_loss = criterion(fake_preds, real_label)
 
     return gen_loss, fake_images
 
 
 def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, save_dir):
-    #init model
-    if args.type == 'ae_base':
-        gen_model = baseline_autoencoder(args)
-        disc_model = baseline_discriminator(args)
-    elif args.type == 'ae_exp':
+    #init model based on type of model
+    gen_model = baseline_autoencoder(args)
+    disc_model = baseline_discriminator(args)
+    if args.type == 'ae_exp':
         gen_model = experimental_autoencoder(args)
         disc_model = experimental_discriminator(args)
     elif args.type == 'ae_small':
         gen_model = small_autoencoder(args)
         disc_model = small_discriminator(args)
     if args.load_dir is not None:
+        #this wont work yet because of naming issues
         gen_dir = os.path.join(args.load_dir, 'gen_model.pt')
         gen_model.load_state_dict(torch.load(gen_dir))
         disc_dir = os.path.join(args.load_dir, 'disc_model.pt')
@@ -73,13 +73,13 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, s
         gen_model.cuda()
         disc_model.cuda()
 
+    #init optimizers
     disc_optimizer = torch.optim.Adam(disc_model.parameters(), lr=args.lr) #weight_decay
     gen_optimizer = torch.optim.Adam(gen_model.parameters(), lr=args.lr)
 
-    #train
+    #for every epoch train
     for epoch in range(args.num_epochs):
         log.info(f'Epoch: {epoch}')
-        gen_model.train() # maybe move into for loop
         disc_model.train()
         train_loss = (0,0)
         index = 0
@@ -91,7 +91,6 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, s
                 # process batch
                 real_image, _ = data
                 real_image.resize_((args.batch_size,3,218,178))
-                # real_image = Variable(real_image)
                 if torch.cuda.is_available():
                     real_image = real_image.cuda()
 
@@ -110,7 +109,7 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, s
                 gen_optimizer.step()
 
 
-                #logging
+                #logging, update progress bar and epoch loss
                 input_ids = batch_idx #batch['input_ids'].to('cuda')
                 progress_bar.update(index)
                 progress_bar.set_postfix(epoch=epoch, Gen_Loss=float(g_loss), Disc_Loss=(float(fake_loss), float(real_loss)))
@@ -118,7 +117,7 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, s
                 index += 1
 
 
-        #end of epcoh logging
+        #end of epcoh logging. average losses, save image examples, save model
         log.info('====> Epoch: {} Average gen loss: {:.4f} Average Dis Loss: {:.4f}'.format(
             epoch, train_loss[0] / len(train_dataloader.dataset), train_loss[1] / len(train_dataloader.dataset)))
         if epoch % 2 == 0:
@@ -132,5 +131,5 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, s
             torch.save(disc_model.state_dict(), save_dir + '/disc_model.pt')
 
 
-    #finished training
+    #finished training. return trained models
     return gen_model, disc_model

@@ -7,6 +7,7 @@ class baseline_autoencoder(nn.Module):
 
         self.args = args
 
+        #initialize encoding layers
         self.enc_layer_1 = nn.Sequential(
             nn.Conv2d(3, 16, kernel_size=5, stride=3, padding=1),  # b, 16, 72, 59
             nn.ReLU(True),
@@ -15,8 +16,10 @@ class baseline_autoencoder(nn.Module):
         self.enc_layer_2_def = nn.Sequential(
             nn.Conv2d(16, 12, kernel_size=3, stride=2),# padding=1), # b, 12, 35, 29
         )
+        #encode only to big encoding
 
 
+        #initialize decoding layers
         self.dec_layer_2 = nn.Sequential(
             nn.ConvTranspose2d(12, 8, kernel_size=5, stride=2, padding=(1,1), output_padding=(1,1)), # padding=1),# output_padding=(1,0)),  # b, 8, 73, 61
             nn.ReLU(True),
@@ -38,6 +41,7 @@ class baseline_autoencoder(nn.Module):
         return recon_x
 
     def forward(self, x):
+        #encode then reconstruct
         z = self.encoder(x)
         recon_x = self.decoder(z)
         return recon_x
@@ -45,6 +49,8 @@ class baseline_autoencoder(nn.Module):
 class baseline_discriminator(nn.Module):
     def __init__(self, args):
         super(baseline_discriminator, self).__init__()
+
+        #construct discriminator
         self.conv1 = nn.Sequential(
             nn.Conv2d(3, 32, kernel_size=5, padding=2),  # batch, 32, 218, 178
             nn.LeakyReLU(0.2, True),
@@ -74,6 +80,7 @@ class baseline_discriminator(nn.Module):
         x = self.conv1(x)
         x = self.conv2(x)
         x = self.conv3(x)
+        #flatten for fully connected layer
         x = x.view(x.size(0), -1)
         x = self.fc(x)
         return x.squeeze()
