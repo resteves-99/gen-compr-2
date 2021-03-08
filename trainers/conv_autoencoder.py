@@ -122,13 +122,13 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, s
         #end of epcoh logging. average losses, save image examples, save model
         log.info('====> Epoch: {} Average gen loss: {:.4f} Average Dis Loss: {:.4f}'.format(
             epoch, train_loss[0] / len(train_dataloader.dataset), train_loss[1] / len(train_dataloader.dataset)))
-        if epoch % 2 == 0:
+        if epoch % 5 == 0:
             save = recon_batch.cpu().data
             save_image(save, example_dir + f'/recon_image_epcoh_{epoch}.png')
 
             save = real_image.cpu().data
             save_image(save, example_dir + f'/real_image_epcoh_{epoch}.png')
-        if epoch % 10 == 0:
+        if epoch % 5 == 0:
             torch.save(gen_model.state_dict(), save_dir + '/gen_model.pt')
             torch.save(disc_model.state_dict(), save_dir + '/disc_model.pt')
 
