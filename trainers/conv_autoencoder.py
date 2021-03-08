@@ -13,7 +13,6 @@ from models.ae_short import small_autoencoder, small_discriminator
 from models.ae_baseline import baseline_autoencoder, baseline_discriminator
 import os
 import copy
-import matplotlib.pyplot as plt
 
 
 def disc_loss(args, gen, disc, criterion, real_image):
