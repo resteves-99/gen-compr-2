@@ -93,13 +93,6 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, s
                 # process batch
                 real_image, _ = data
 
-                #check image
-                first_image = real_image[0,:,:,:]
-                first_image = first_image.squeeze()
-                first_image = first_image.permute(1,2,0)
-                plt.imshow(first_image)
-                plt.show()
-
                 real_image.resize_((args.batch_size,3,218,178))
                 if torch.cuda.is_available():
                     real_image = real_image.cuda()
@@ -118,14 +111,12 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, s
                 g_loss.backward(retain_graph=True)
                 gen_optimizer.step()
 
-
                 #logging, update progress bar and epoch loss
                 input_ids = batch_idx #batch['input_ids'].to('cuda')
                 progress_bar.update(index)
                 progress_bar.set_postfix(epoch=epoch, Gen_Loss=float(g_loss), Disc_Loss=(float(fake_loss), float(real_loss)))
                 train_loss += (float(g_loss), float(d_loss))
                 index += 1
-                break
 
 
         #end of epcoh logging. average losses, save image examples, save model
