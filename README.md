@@ -27,14 +27,15 @@ unfortunately I haven't been saving my discriminator models to disk so I cant ac
 
 # examples
 you can find examples of reconstructed images under ```./save/model_name/examples/```
-I have uploaded examples for the models described below\
+I have three models which I have trained for about 30 iterations. One is the large baseline, one is the small baseline, and the last is the experimental model.\
+The names of these models are 'baseline_disc_1', 'exp_1', 'small_1' 
 
 # models so far
 ae_base is a baseline model which embeds images into a larger size than our experimental model.
 ae_exp is our experimental model.\
 ae_small is a baseline model which embeds images into a smaller size than our experimental mode.\\
-\
-\
+
+
 All of these models are composed of an encoder, a decoder, and a discriminator.\
 The differences between these models is further specified in my writeup.
 
