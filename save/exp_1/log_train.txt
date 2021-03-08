@@ -77,3 +77,18 @@
 [03.08.21 02:16:37] Epoch: 26
 [03.08.21 02:47:57] ====> Epoch: 26 Average gen loss: 0.0000 Average Dis Loss: 0.0000
 [03.08.21 02:47:57] Epoch: 27
+[03.08.21 22:50:44] Args: {
+    "batch_size": 16,
+    "load_dir": null,
+    "lr": 3e-05,
+    "name": "exp_1",
+    "num_epochs": 25,
+    "type": "ae_exp"
+}
+[03.08.21 22:50:44] Preparing Training Data...
+[03.08.21 22:50:47] Data Loaded
+[03.08.21 22:50:51] Epoch: 0
+[03.08.21 23:12:13] ====> Epoch: 0 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.08.21 23:12:13] Epoch: 1
+[03.08.21 23:33:38] ====> Epoch: 1 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.08.21 23:33:38] Epoch: 2

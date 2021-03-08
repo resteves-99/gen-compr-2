@@ -1,0 +1,15 @@
+[03.08.21 22:49:03] Args: {
+    "batch_size": 16,
+    "load_dir": null,
+    "lr": 3e-05,
+    "name": "large_1",
+    "num_epochs": 25,
+    "type": "ae_base"
+}
+[03.08.21 22:49:03] Preparing Training Data...
+[03.08.21 22:49:06] Data Loaded
+[03.08.21 22:49:09] Epoch: 0
+[03.08.21 23:08:58] ====> Epoch: 0 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.08.21 23:08:58] Epoch: 1
+[03.08.21 23:30:13] ====> Epoch: 1 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.08.21 23:30:13] Epoch: 2
