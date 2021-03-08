@@ -1,0 +1,26 @@
+[03.07.21 23:18:15] Args: {
+    "batch_size": 16,
+    "lr": 3e-05,
+    "mnist": false,
+    "name": "baseline_disc_2",
+    "num_epochs": 100,
+    "prog_grow": false,
+    "type": "ae_base"
+}
+[03.07.21 23:18:15] Preparing Training Data...
+[03.07.21 23:18:19] Data Loaded
+[03.07.21 23:18:23] Epoch: 0
+[03.07.21 23:46:30] ====> Epoch: 0 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.07.21 23:46:30] Epoch: 1
+[03.08.21 00:14:49] ====> Epoch: 1 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.08.21 00:14:49] Epoch: 2
+[03.08.21 00:42:59] ====> Epoch: 2 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.08.21 00:42:59] Epoch: 3
+[03.08.21 01:11:21] ====> Epoch: 3 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.08.21 01:11:21] Epoch: 4
+[03.08.21 01:39:37] ====> Epoch: 4 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.08.21 01:39:38] Epoch: 5
+[03.08.21 02:07:48] ====> Epoch: 5 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.08.21 02:07:48] Epoch: 6
+[03.08.21 02:35:58] ====> Epoch: 6 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.08.21 02:35:58] Epoch: 7
