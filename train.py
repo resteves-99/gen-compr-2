@@ -9,6 +9,7 @@ from torchvision import transforms
 from torchvision.utils import save_image
 from torchvision.datasets import CelebA, MNIST
 
+import time
 import sys
 import os
 from args import get_train_args
@@ -56,11 +57,14 @@ def main():
     if args.type in ['ae_base', 'ae_exp', 'ae_small']:
         loss = nn.BCELoss()
 
+    start_time = time.time()
     #do training
     gen_model = None
     disc_model = None
     if args.type in ['ae_base', 'ae_exp', 'ae_small']:
         gen_model, disc_model = conv_autoencoder.train(args, train_dataloader, val_dataloader, loss, log, example_dir, save_dir)
+    end_time = time.time()
+    log.info(f"train time {end_time-start_time/(60**2)} hours")
 
     #save models
     #TODO: change this
