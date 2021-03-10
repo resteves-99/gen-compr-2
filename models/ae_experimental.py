@@ -15,17 +15,18 @@ class experimental_autoencoder(nn.Module):
 
         #initialize encoding layers
         self.enc_layer_1 = nn.Sequential(
-            nn.Conv2d(3, 16, kernel_size=5, stride=3, padding=1),  # b, 16, 72, 59
+            nn.Conv2d(3, 32, kernel_size=5, stride=3, padding=1),  # b, 16, 72, 59
             nn.ReLU(True),
-            # nn.MaxPool2d(2, stride=2),  # b, 16, ...
         )
         self.enc_layer_2 = nn.Sequential(
-            nn.Conv2d(16, 4, kernel_size=3, stride=2, padding=1),  # b, 4, 36, 30
+            nn.Conv2d(32, 16, kernel_size=3, stride=2, padding=1),  # b, 32, 36, 30
             nn.ReLU(True),
-            # nn.MaxPool2d(2, stride=2),  # b, 16, ...
         )
-        self.enc_layer_3 = nn.Sequential(
-            nn.Conv2d(4, 8, kernel_size=3, stride=2, padding=1), # b, 8, 18, 15
+        self.enc_layer_large = nn.Sequential(
+            nn.Conv2d(16, 4, kernel_size=3, stride=1, padding=1), # b, 4, 36, 30
+        )
+        self.enc_layer_small = nn.Sequential(
+            nn.Conv2d(16, 8, kernel_size=3, stride=2, padding=1), # b, 8, 18, 15
         )
         #construct both a large and small embedding
 
@@ -47,8 +48,9 @@ class experimental_autoencoder(nn.Module):
     def encoder(self, x):
         out_1 = self.enc_layer_1(x)
         out_2 = self.enc_layer_2(out_1)
-        out_3 = self.enc_layer_3(out_2)
-        embed = (out_2, out_3)
+        embed_large = self.enc_layer_large(out_2)
+        embed_small = self.enc_layer_small(out_2)
+        embed = (embed_large, embed_small)
         # print(embed.shape)
         return embed
 

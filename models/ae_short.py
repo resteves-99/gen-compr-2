@@ -10,24 +10,22 @@ class small_autoencoder(nn.Module):
 
         #initialize encoding layers
         self.enc_layer_1 = nn.Sequential(
-            nn.Conv2d(3, 16, kernel_size=5, stride=3, padding=1),  # b, 16, 72, 59
+            nn.Conv2d(3, 32, kernel_size=5, stride=3, padding=1),  # b, 16, 72, 59
             nn.ReLU(True),
-            # nn.MaxPool2d(2, stride=2),  # b, 16, ...
         )
         self.enc_layer_2 = nn.Sequential(
-            nn.Conv2d(16, 4, kernel_size=3, stride=2, padding=1),  # b, 4, 36, 30
+            nn.Conv2d(32, 16, kernel_size=3, stride=2, padding=1),  # b, 4, 36, 30
             nn.ReLU(True),
-            # nn.MaxPool2d(2, stride=2),  # b, 16, ...
         )
-        self.enc_layer_3 = nn.Sequential(
-            nn.Conv2d(4, 8, kernel_size=3, stride=2, padding=1), # b, 8, 18, 15
+        self.enc_layer_small = nn.Sequential(
+            nn.Conv2d(16, 12, kernel_size=3, stride=2, padding=1), # b, 8, 18, 15
         )
         #encode only to small encoding
 
         #initialize decoding layers
         self.dec_layer_1 = nn.Sequential(
             #only use this on smallest output
-            nn.ConvTranspose2d(8, 12, kernel_size=3, stride=2, padding=1),# padding=1),# output_padding=1),  # b, 16, 35, 29
+            nn.ConvTranspose2d(12, 12, kernel_size=3, stride=2, padding=1),# padding=1),# output_padding=1),  # b, 16, 35, 29
             nn.ReLU(True),
         )
         self.dec_layer_2 = nn.Sequential(
@@ -40,10 +38,10 @@ class small_autoencoder(nn.Module):
         )
 
     def encoder(self, x):
-        out_1 = self.enc_layer_1(x)
-        out_2 = self.enc_layer_2(out_1)
-        out_3 = self.enc_layer_3(out_2)
-        embed = out_3
+        out = self.enc_layer_1(x)
+        out = self.enc_layer_2(out)
+        small_embed = self.enc_layer_small(out)
+        embed = small_embed
 
         return embed
 

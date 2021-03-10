@@ -9,12 +9,14 @@ class baseline_autoencoder(nn.Module):
 
         #initialize encoding layers
         self.enc_layer_1 = nn.Sequential(
-            nn.Conv2d(3, 16, kernel_size=5, stride=3, padding=1),  # b, 16, 72, 59
+            nn.Conv2d(3, 32, kernel_size=5, stride=3, padding=1),  # b, 16, 72, 59
             nn.ReLU(True),
-            # nn.MaxPool2d(2, stride=2),  # b, 16, ...
         )
-        self.enc_layer_2_def = nn.Sequential(
-            nn.Conv2d(16, 12, kernel_size=3, stride=2),# padding=1), # b, 12, 35, 29
+        self.enc_layer_2 = nn.Sequential(
+            nn.Conv2d(32, 16, kernel_size=3, stride=2),# padding=1), # b, 16, 35, 29
+        )
+        self.enc_layer_large = nn.Sequential(
+            nn.Conv2d(16, 12, kernel_size=3, stride=1),# padding=1), # b, 12, 35, 29
         )
         #encode only to big encoding
 
@@ -30,8 +32,10 @@ class baseline_autoencoder(nn.Module):
         )
 
     def encoder(self, x):
-        out_1 = self.enc_layer_1(x)
-        embed = (self.enc_layer_2_def(out_1))
+        out = self.enc_layer_1(x)
+        out = self.enc_layer_2(out)
+        embed_large = self.enc_layer_large(out)
+        embed = embed_large
         return embed
 
     def decoder(self, x):
