@@ -1,9 +1,0 @@
-[03.08.21 03:13:20] Args: {
-    "batch_size": 16,
-    "load_dir": "save/baseline_disc_1/model_baseline_disc_1.pt",
-    "name": "baseline_disc_1",
-    "split": "test",
-    "type": "ae_base"
-}
-[03.08.21 03:13:20] Preparing Testing Data...
-[03.08.21 03:13:22] Data Loaded
