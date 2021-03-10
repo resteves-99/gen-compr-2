@@ -18,7 +18,7 @@ import copy
 def disc_loss(args, gen, disc, criterion, real_image):
     real_label = torch.ones(args.batch_size, device='cuda')
     fake_label = torch.zeros(args.batch_size, device='cuda')
-    real_images = copy.copy(real_image)
+    real_images = copy.copy(real_image) #copy so we dont augment data accidently
 
     #get reconstructed images
     fake_images = gen(real_images).detach()
@@ -34,24 +34,31 @@ def disc_loss(args, gen, disc, criterion, real_image):
     real_preds = disc(real_images)
 
     #compare predictions with target label
-    fake_loss = criterion(fake_preds, fake_label)
-    real_loss = criterion(real_preds, real_label)
+    fake_loss = criterion(pred = fake_preds, label = fake_label)
+    real_loss = criterion(pred = real_preds, label = real_label)
     disc_loss = 0.5*(fake_loss + real_loss)
 
     return fake_loss, real_loss
 
 def gen_loss(args, gen, disc, criterion, real_image):
     real_label = torch.ones(args.batch_size).cuda()
-    real_images = copy.copy(real_image)
+    real_images = copy.copy(real_image) #copy so we dont augment data accidently
 
     #generate fake images and make predictions on them
     fake_images = gen(real_images)
     fake_preds = disc(fake_images)
 
-    #compare predictions with target label
-    gen_loss = criterion(fake_preds, real_label)
+    # reshape target so it is same size as reconstruction
+    tgt_size = [args.batch_size]
+    for elem in list(fake_images.shape[1:]): tgt_size.append(elem)
+    real_images = real_images[:, :, :fake_images.shape[2], :fake_images.shape[3]]
+    assert real_images.shape == fake_images.shape
 
-    return gen_loss, fake_images
+    #compare predictions with target label
+    pred_loss = criterion(pred = fake_preds, label = real_label)
+    mse_loss = criterion(real = real_images, recon = fake_images)
+
+    return pred_loss, mse_loss, fake_images
 
 
 def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, save_dir):
@@ -105,7 +112,8 @@ def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, s
                     disc_optimizer.step()
 
                 #calc gen loss and train
-                g_loss, recon_batch = gen_loss(args, gen_model, disc_model, criterion, real_image)
+                pred_loss, mse_loss, recon_batch = gen_loss(args, gen_model, disc_model, criterion, real_image)
+                g_loss = (1-args.lamda)*pred_loss + args.lamda*mse_loss
                 gen_optimizer.zero_grad()
                 g_loss.backward(retain_graph=True)
                 gen_optimizer.step()

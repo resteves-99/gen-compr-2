@@ -52,9 +52,16 @@ def main():
 
 
     #set up loss
-    loss = None
-    if args.type in ['ae_base', 'ae_exp', 'ae_small']:
-        loss = nn.BCELoss()
+    bce = nn.BCELoss()
+    mse = nn.MSELoss()
+    def loss(pred = None, label = None, real = None, recon = None):
+        loss = 0
+        if pred is not None and label is not None:
+            loss += bce(pred, label)
+        if real is not None and recon is not None:
+            loss += mse(recon, real)
+        return loss
+
 
     #do training
     gen_model = None
