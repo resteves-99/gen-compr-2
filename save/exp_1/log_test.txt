@@ -16,3 +16,12 @@
 }
 [03.08.21 03:11:07] Preparing Testing Data...
 [03.08.21 03:11:09] Data Loaded
+[03.10.21 01:55:27] Args: {
+    "batch_size": 16,
+    "load_dir": "save/exp_1/gen_model.pt",
+    "name": "exp_1",
+    "split": "test",
+    "type": "ae_exp"
+}
+[03.10.21 01:55:27] Preparing Testing Data...
+[03.10.21 01:55:29] Data Loaded
