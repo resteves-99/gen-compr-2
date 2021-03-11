@@ -72,7 +72,7 @@ def main():
     with torch.enable_grad(), tqdm(total=51750051) as progress_bar:
         torch.autograd.set_detect_anomaly(True)
         total_g_loss = (0,0)
-        total_d_loss = 0
+        total_d_loss = (0,0)
         index = 0
         for batch_idx, data in enumerate(test_dataloader):
             # process batch
