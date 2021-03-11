@@ -1,0 +1,36 @@
+[03.10.21 19:01:09] Args: {
+    "batch_size": 16,
+    "lamda": 0.35,
+    "load_dir": null,
+    "lr": 3e-05,
+    "name": "updated_model_exp",
+    "num_epochs": 21,
+    "type": "ae_base"
+}
+[03.10.21 19:01:09] Preparing Training Data...
+[03.10.21 19:01:13] Data Loaded
+[03.10.21 19:01:16] Epoch: 0
+[03.10.21 19:30:36] ====> Epoch: 0 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.10.21 19:30:37] Epoch: 1
+[03.10.21 19:58:42] ====> Epoch: 1 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.10.21 19:58:42] Epoch: 2
+[03.10.21 20:26:37] ====> Epoch: 2 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.10.21 20:26:37] Epoch: 3
+[03.10.21 20:54:39] ====> Epoch: 3 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.10.21 20:54:39] Epoch: 4
+[03.10.21 21:22:34] ====> Epoch: 4 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.10.21 21:22:34] Epoch: 5
+[03.10.21 21:50:40] ====> Epoch: 5 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.10.21 21:50:40] Epoch: 6
+[03.10.21 22:18:33] ====> Epoch: 6 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.10.21 22:18:33] Epoch: 7
+[03.10.21 22:46:26] ====> Epoch: 7 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.10.21 22:46:26] Epoch: 8
+[03.10.21 23:14:32] ====> Epoch: 8 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.10.21 23:14:32] Epoch: 9
+[03.10.21 23:42:30] ====> Epoch: 9 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.10.21 23:42:30] Epoch: 10
+[03.11.21 00:10:18] ====> Epoch: 10 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.11.21 00:10:18] Epoch: 11
+[03.11.21 00:38:21] ====> Epoch: 11 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.11.21 00:38:21] Epoch: 12
