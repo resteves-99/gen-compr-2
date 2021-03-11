@@ -34,3 +34,20 @@
 [03.11.21 00:11:23] Epoch: 11
 [03.11.21 00:39:24] ====> Epoch: 11 Average gen loss: 0.0000 Average Dis Loss: 0.0000
 [03.11.21 00:39:24] Epoch: 12
+[03.11.21 01:07:29] ====> Epoch: 12 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.11.21 01:07:29] Epoch: 13
+[03.11.21 01:35:19] ====> Epoch: 13 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.11.21 01:35:19] Epoch: 14
+[03.11.21 02:03:30] ====> Epoch: 14 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.11.21 02:03:30] Epoch: 15
+[03.11.21 02:31:34] ====> Epoch: 15 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.11.21 02:31:35] Epoch: 16
+[03.11.21 02:59:32] ====> Epoch: 16 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.11.21 02:59:32] Epoch: 17
+[03.11.21 03:27:24] ====> Epoch: 17 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.11.21 03:27:24] Epoch: 18
+[03.11.21 03:55:27] ====> Epoch: 18 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.11.21 03:55:27] Epoch: 19
+[03.11.21 04:23:16] ====> Epoch: 19 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.11.21 04:23:16] Epoch: 20
+[03.11.21 04:49:52] ====> Epoch: 20 Average gen loss: 0.0000 Average Dis Loss: 0.0000
