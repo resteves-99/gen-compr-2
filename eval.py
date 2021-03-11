@@ -18,6 +18,7 @@ from models.ae_experimental import experimental_autoencoder, experimental_discri
 from models.ae_short import small_autoencoder, small_discriminator
 from models.ae_baseline import baseline_autoencoder, baseline_discriminator
 from train import loss
+import numpy as np
 
 
 def main():
@@ -71,8 +72,8 @@ def main():
     #Loop over the test set
     with torch.enable_grad(), tqdm(total=51750051) as progress_bar:
         torch.autograd.set_detect_anomaly(True)
-        total_g_loss = (0,0)
-        total_d_loss = (0,0)
+        total_g_loss = np.array([0.0,0.0])
+        total_d_loss = np.array([0.0,0.0])
         index = 0
         for batch_idx, data in enumerate(test_dataloader):
             # process batch
