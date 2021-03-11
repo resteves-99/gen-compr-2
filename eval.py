@@ -57,9 +57,9 @@ def main():
     elif args.type == 'ae_small':
         gen_model = small_autoencoder(args)
         disc_model = small_discriminator(args)
-    gen_dir = os.path.join(args.save_dir, 'gen_model.pt')
+    gen_dir = os.path.join(save_dir, 'gen_model.pt')
     gen_model.load_state_dict(torch.load(gen_dir))
-    disc_dir = os.path.join(args.save_dir, 'disc_model.pt')
+    disc_dir = os.path.join(save_dir, 'disc_model.pt')
     disc_model.load_state_dict(torch.load(disc_dir))
 
     # log.info("Testing model in ", args.load_dir)
