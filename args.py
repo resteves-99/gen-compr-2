@@ -21,8 +21,6 @@ def get_eval_args():
 
     parser.add_argument('--type', type=str, choices='ae_base, ae_exp, ae_small', default='ae_base')
 
-    parser.add_argument('--load_dir', type=str, default=None)
-
     parser.add_argument('--split', type=str, choices=['test', 'valid'], default='test')
 
     parser.add_argument('--name', type=str, default=None)

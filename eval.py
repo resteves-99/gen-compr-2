@@ -17,6 +17,8 @@ from tqdm import tqdm
 from models.ae_experimental import experimental_autoencoder, experimental_discriminator
 from models.ae_short import small_autoencoder, small_discriminator
 from models.ae_baseline import baseline_autoencoder, baseline_discriminator
+from train import loss
+
 
 def main():
     args = get_eval_args()
@@ -48,36 +50,28 @@ def main():
     #load model
     if args.type == 'ae_base':
         gen_model = baseline_autoencoder(args)
-        # disc_model = baseline_discriminator(args)
+        disc_model = baseline_discriminator(args)
     elif args.type == 'ae_exp':
         gen_model = experimental_autoencoder(args)
-        # disc_model = experimental_discriminator(args)
+        disc_model = experimental_discriminator(args)
     elif args.type == 'ae_small':
         gen_model = small_autoencoder(args)
-        # disc_model = small_discriminator(args)
-    if args.load_dir is None:
-        log.info("--load-dir must be provided")
-    gen_dir = args.load_dir #os.path.join(args.load_dir, 'gen_model.pt')
+        disc_model = small_discriminator(args)
+    gen_dir = os.path.join(args.save_dir, 'gen_model.pt')
     gen_model.load_state_dict(torch.load(gen_dir))
-    # disc_dir = os.path.join(args.load_dir, 'disc_model.pt')
-    # disc_model.load_state_dict(torch.load(disc_dir))
-    #TODO: add discriminator saving and loss loop
+    disc_dir = os.path.join(args.save_dir, 'disc_model.pt')
+    disc_model.load_state_dict(torch.load(disc_dir))
 
     # log.info("Testing model in ", args.load_dir)
 
     if torch.cuda.is_available():
         gen_model.cuda()
-        # disc_model.cuda()
-
-        # set up loss
-        criterion = None
-        if args.type in ['ae_base', 'ae_exp', 'ae_small']:
-            criterion = nn.BCELoss()
+        disc_model.cuda()
 
     #Loop over the test set
     with torch.enable_grad(), tqdm(total=51750051) as progress_bar:
         torch.autograd.set_detect_anomaly(True)
-        total_g_loss = 0
+        total_g_loss = (0,0)
         total_d_loss = 0
         index = 0
         for batch_idx, data in enumerate(test_dataloader):
@@ -87,26 +81,27 @@ def main():
             if torch.cuda.is_available():
                 real_image = real_image.cuda()
 
-            # # calc discriminator loss and train
-            # fake_loss, real_loss = disc_loss(args, gen_model, disc_model, criterion, real_image)
-            # d_loss = fake_loss + real_loss
-            #
-            # # calc gen loss and train
-            # g_loss, recon_batch = gen_loss(args, gen_model, disc_model, criterion, real_image)
+            # calc discriminator loss and train
+            fake_loss, real_loss = disc_loss(args, gen_model, disc_model, loss, real_image)
 
-            #I will add this back in when I have discriminators saved
+            # calc gen loss and train
+            pred_loss, mse_loss, recon_batch = gen_loss(args, gen_model, disc_model, loss, real_image)
 
-            # logging
-            # input_ids = batch_idx  # batch['input_ids'].to('cuda')
-            # progress_bar.update(index)
-            # progress_bar.set_postfix(epoch=1, Gen_Loss=float(g_loss),
-            #                          Disc_Loss=(float(fake_loss), float(real_loss)))
-            # total_g_loss += float(g_loss)
-            # total_d_loss += float(d_loss)
+            input_ids = batch_idx  # batch['input_ids'].to('cuda')
+            progress_bar.update(index)
+            progress_bar.set_postfix(epoch=1)
+            total_g_loss += (float(pred_loss),float(mse_loss))
+            total_d_loss += (float(fake_loss),float(real_loss))
 
-            recon_batch = gen_model(real_image)
             index += 1
-            break
+
+        avg_pred_loss = total_g_loss[0]/index
+        avg_mse_loss = total_g_loss[1]/index
+        avg_fake_loss = total_d_loss[0]/index
+        avg_real_loss = total_d_loss[1]/index
+
+        log.info(f"Across one test batch the generator loss had average discriminator loss  {avg_pred_loss} and MSE loss  {avg_mse_loss}\n"
+                 f"The discriminator had average reconstructed image loss {avg_fake_loss} and average real image  loss {avg_real_loss}")
 
         #save the reconstructed example and the real example
         save = recon_batch.cpu().data

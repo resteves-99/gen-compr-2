@@ -17,6 +17,16 @@ import json
 import trainers.conv_autoencoder as conv_autoencoder
 
 
+#set up loss
+bce = nn.BCELoss()
+mse = nn.MSELoss()
+def loss(pred = None, label = None, real = None, recon = None):
+    loss = 0
+    if pred is not None and label is not None:
+        loss += bce(pred, label)
+    if real is not None and recon is not None:
+        loss += mse(recon, real)
+    return loss
 
 def main():
     args = get_train_args()
@@ -51,18 +61,6 @@ def main():
     # I do not use the validation data loader yet but I might implement this in training later
 
 
-    #set up loss
-    bce = nn.BCELoss()
-    mse = nn.MSELoss()
-    def loss(pred = None, label = None, real = None, recon = None):
-        loss = 0
-        if pred is not None and label is not None:
-            loss += bce(pred, label)
-        if real is not None and recon is not None:
-            loss += mse(recon, real)
-        return loss
-
-
     #do training
     gen_model = None
     disc_model = None
@@ -70,7 +68,6 @@ def main():
         gen_model, disc_model = conv_autoencoder.train(args, train_dataloader, val_dataloader, loss, log, example_dir, save_dir)
 
     #save models
-    #TODO: change this
     torch.save(gen_model.state_dict(), save_dir+'/gen_model.pt')
     torch.save(disc_model.state_dict(), save_dir+'/disc_model.pt')
 
