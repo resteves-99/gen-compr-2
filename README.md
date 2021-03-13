@@ -3,6 +3,7 @@ run the following comands in a new conda environment
 ```
 conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
 conda install pandas tqdm requests
+pip install gsa-pytorch
 ```
 
 # train
