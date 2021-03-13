@@ -1,5 +1,6 @@
 import torch.nn as nn
 import torch
+from gsa_pytorch import GSA
 
 class small_autoencoder(nn.Module):
     def __init__(self, args):
@@ -16,6 +17,12 @@ class small_autoencoder(nn.Module):
         self.enc_layer_2 = nn.Sequential(
             nn.Conv2d(32, 16, kernel_size=3, stride=2, padding=1),  # b, 4, 36, 30
             nn.ReLU(True),
+        )
+        self.small_attention = GSA(
+            dim = 16,
+            dim_out = 16,
+            dim_key = 32,
+            heads = 8
         )
         self.enc_layer_small = nn.Sequential(
             nn.Conv2d(16, 12, kernel_size=3, stride=2, padding=1), # b, 8, 18, 15
@@ -40,6 +47,7 @@ class small_autoencoder(nn.Module):
     def encoder(self, x):
         out = self.enc_layer_1(x)
         out = self.enc_layer_2(out)
+        out = self.small_attention(out)
         small_embed = self.enc_layer_small(out)
         embed = small_embed
 

@@ -1,14 +1,12 @@
 import torch.nn as nn
 import torch
+from gsa_pytorch import GSA
 
 class experimental_autoencoder(nn.Module):
     def __init__(self, args):
         super(experimental_autoencoder, self).__init__()
 
-        #TODO: kernel size
-        #TODO: stride
         #TODO: bpp
-        #TODO: add attention
 
 
         self.args = args
@@ -22,8 +20,20 @@ class experimental_autoencoder(nn.Module):
             nn.Conv2d(32, 16, kernel_size=3, stride=2, padding=1),  # b, 32, 36, 30
             nn.ReLU(True),
         )
+        self.large_attention = GSA(
+            dim = 16,
+            dim_out = 16,
+            dim_key = 32,
+            heads = 8
+        )
         self.enc_layer_large = nn.Sequential(
             nn.Conv2d(16, 4, kernel_size=3, stride=1, padding=1), # b, 4, 36, 30
+        )
+        self.small_attention = GSA(
+            dim = 16,
+            dim_out = 16,
+            dim_key = 32,
+            heads = 8
         )
         self.enc_layer_small = nn.Sequential(
             nn.Conv2d(16, 8, kernel_size=3, stride=2, padding=1), # b, 8, 18, 15
@@ -48,8 +58,10 @@ class experimental_autoencoder(nn.Module):
     def encoder(self, x):
         out_1 = self.enc_layer_1(x)
         out_2 = self.enc_layer_2(out_1)
-        embed_large = self.enc_layer_large(out_2)
-        embed_small = self.enc_layer_small(out_2)
+        atn_large = self.large_attention(out_2)
+        embed_large = self.enc_layer_large(atn_large)
+        atn_small = self.small_attention(out_2)
+        embed_small = self.enc_layer_small(atn_small)
         embed = (embed_large, embed_small)
         # print(embed.shape)
         return embed
