@@ -1,0 +1,54 @@
+[03.11.21 18:30:18] Args: {
+    "batch_size": 16,
+    "load_dir": null,
+    "name": "updated_model_exp",
+    "split": "test",
+    "type": "ae_base"
+}
+[03.11.21 18:30:18] Preparing Testing Data...
+[03.11.21 18:30:19] Data Loaded
+[03.11.21 18:30:19] --load-dir must be provided
+[03.11.21 18:34:43] Args: {
+    "batch_size": 16,
+    "name": "updated_model_exp",
+    "split": "test",
+    "type": "ae_base"
+}
+[03.11.21 18:34:43] Preparing Testing Data...
+[03.11.21 18:34:44] Data Loaded
+[03.11.21 18:35:51] Args: {
+    "batch_size": 16,
+    "name": "updated_model_exp",
+    "split": "test",
+    "type": "ae_base"
+}
+[03.11.21 18:35:51] Preparing Testing Data...
+[03.11.21 18:35:53] Data Loaded
+[03.11.21 18:36:55] Args: {
+    "batch_size": 16,
+    "name": "updated_model_exp",
+    "split": "test",
+    "type": "ae_base"
+}
+[03.11.21 18:36:55] Preparing Testing Data...
+[03.11.21 18:36:57] Data Loaded
+[03.11.21 18:37:31] Args: {
+    "batch_size": 16,
+    "name": "updated_model_exp",
+    "split": "test",
+    "type": "ae_base"
+}
+[03.11.21 18:37:31] Preparing Testing Data...
+[03.11.21 18:37:33] Data Loaded
+[03.11.21 18:39:28] Across one test batch the generator loss had average discriminator loss  0.0 and MSE loss  0.0
+The discriminator had average reconstructed image loss 0.0 and average real image  loss 0.0
+[03.11.21 18:46:55] Args: {
+    "batch_size": 16,
+    "name": "updated_model_exp",
+    "split": "test",
+    "type": "ae_base"
+}
+[03.11.21 18:46:55] Preparing Testing Data...
+[03.11.21 18:46:57] Data Loaded
+[03.11.21 18:47:44] Across one test batch the generator loss had average discriminator loss  2.0351585442057023 and MSE loss  0.0034773640863698884
+The discriminator had average reconstructed image loss 0.22845846746498957 and average real image  loss 0.42936241787929946
