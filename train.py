@@ -25,32 +25,35 @@ bce = nn.BCELoss()
 mse = nn.MSELoss()
 mt = None
 to_pil = transforms.ToPILImage()
-def loss(pred = None, label = None, real = None, recon = None):
+def loss(pred = None, label = None, real = None, recon = None, face_seg = False):
     global mt
     loss = 0
     if pred is not None and label is not None:
         loss += bce(pred, label)
     if real is not None and recon is not None:
-        #loss on faces only
-        if mt is None:
-            mt = MTCNN(image_size = list(real[0,:,:,:].squeeze().shape)[0])
-        height, width = list(real[0,0,:,:].squeeze().shape)
-        for batch_idx in range(real.shape[0]):
-            real_img = real[batch_idx, :, :, :].squeeze() #get one image
-            real_img_cpy = real_img
-            real_img_cpy = to_pil(real_img_cpy)
-            face_tensor, prob = mt.detect(real_img_cpy) #detect faces
-            if face_tensor is not None: #if face found make ints, use only most likely face
-                face_tensor = np.squeeze(face_tensor.astype(int)[0])
-            else:#if face not found use entire picture
-                face_tensor = [0, 0, width, height]
-            real_crop = real_img[:, max(face_tensor[0]-25,0):min(face_tensor[3]+25, height), max(face_tensor[1]-25, 0): min(face_tensor[2]+25,width)]
+        if face_seg:
+            #loss on faces only
+            if mt is None:
+                mt = MTCNN(image_size = list(real[0,:,:,:].squeeze().shape)[0])
+            height, width = list(real[0,0,:,:].squeeze().shape)
+            for batch_idx in range(real.shape[0]):
+                real_img = real[batch_idx, :, :, :].squeeze() #get one image
+                real_img_cpy = real_img
+                real_img_cpy = to_pil(real_img_cpy)
+                face_tensor, prob = mt.detect(real_img_cpy) #detect faces
+                if face_tensor is not None: #if face found make ints, use only most likely face
+                    face_tensor = np.squeeze(face_tensor.astype(int)[0])
+                else:#if face not found use entire picture
+                    face_tensor = [0, 0, width, height]
+                real_crop = real_img[:, max(face_tensor[0]-25,0):min(face_tensor[3]+25, height), max(face_tensor[1]-25, 0): min(face_tensor[2]+25,width)]
 
-            recon_img = recon[batch_idx, :, :, :].squeeze()
-            #use the same face coordinates for the reconstructed image
-            recon_crop = recon_img[:, max(face_tensor[0]-25,0):min(face_tensor[3]+25, height), max(face_tensor[1]-25, 0): min(face_tensor[2]+25,width)]
+                recon_img = recon[batch_idx, :, :, :].squeeze()
+                #use the same face coordinates for the reconstructed image
+                recon_crop = recon_img[:, max(face_tensor[0]-25,0):min(face_tensor[3]+25, height), max(face_tensor[1]-25, 0): min(face_tensor[2]+25,width)]
 
-            loss += mse(recon_crop, real_crop)
+                loss += mse(recon_crop, real_crop)
+        else:
+            loss += mse(recon, real)
     return loss
 
 def main():

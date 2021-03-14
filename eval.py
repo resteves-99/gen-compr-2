@@ -83,7 +83,7 @@ def main():
             fake_loss, real_loss = disc_loss(args, gen_model, disc_model, loss, real_image)
 
             # calc gen loss and train
-            pred_loss, mse_loss, recon_batch = gen_loss(args, gen_model, disc_model, loss, real_image)
+            pred_loss, mse_loss, recon_batch = gen_loss(args, gen_model, disc_model, loss, real_image, face_seg=True)
 
             input_ids = batch_idx  # batch['input_ids'].to('cuda')
             progress_bar.update(index)
