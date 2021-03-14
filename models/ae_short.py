@@ -47,7 +47,6 @@ class small_autoencoder(nn.Module):
     def encoder(self, x):
         out = self.enc_layer_1(x)
         out = self.enc_layer_2(out)
-        out = self.small_attention(out)
         small_embed = self.enc_layer_small(out)
         embed = small_embed
 

@@ -58,10 +58,8 @@ class experimental_autoencoder(nn.Module):
     def encoder(self, x):
         out_1 = self.enc_layer_1(x)
         out_2 = self.enc_layer_2(out_1)
-        atn_large = self.large_attention(out_2)
-        embed_large = self.enc_layer_large(atn_large)
-        atn_small = self.small_attention(out_2)
-        embed_small = self.enc_layer_small(atn_small)
+        embed_large = self.enc_layer_large(out_2)
+        embed_small = self.enc_layer_small(out_2)
         embed = (embed_large, embed_small)
         # print(embed.shape)
         return embed

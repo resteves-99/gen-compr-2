@@ -41,7 +41,6 @@ class baseline_autoencoder(nn.Module):
     def encoder(self, x):
         out = self.enc_layer_1(x)
         out = self.enc_layer_2(out)
-        out = self.large_attention(out)
         embed_large = self.enc_layer_large(out)
         embed = embed_large
         return embed
