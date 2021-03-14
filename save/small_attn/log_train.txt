@@ -1,0 +1,18 @@
+[03.13.21 19:18:00] Args: {
+    "batch_size": 16,
+    "lamda": 0.35,
+    "load_dir": null,
+    "lr": 3e-05,
+    "name": "small_attn",
+    "num_epochs": 21,
+    "type": "ae_small"
+}
+[03.13.21 19:18:00] Preparing Training Data...
+[03.13.21 19:18:03] Data Loaded
+[03.13.21 19:18:06] Epoch: 0
+[03.13.21 19:58:10] ====> Epoch: 0 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.13.21 19:58:11] Epoch: 1
+[03.13.21 20:26:30] ====> Epoch: 1 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.13.21 20:26:30] Epoch: 2
+[03.13.21 20:53:17] ====> Epoch: 2 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.13.21 20:53:17] Epoch: 3

@@ -1,0 +1,30 @@
+[03.13.21 19:11:49] Args: {
+    "batch_size": 16,
+    "lamda": 0.35,
+    "load_dir": null,
+    "lr": 3e-05,
+    "name": "large_attn",
+    "num_epochs": 21,
+    "type": "ae_base"
+}
+[03.13.21 19:11:49] Preparing Training Data...
+[03.13.21 19:11:53] Data Loaded
+[03.13.21 19:12:02] Epoch: 0
+[03.13.21 19:18:06] Args: {
+    "batch_size": 16,
+    "lamda": 0.35,
+    "load_dir": null,
+    "lr": 3e-05,
+    "name": "large_attn",
+    "num_epochs": 21,
+    "type": "ae_base"
+}
+[03.13.21 19:18:06] Preparing Training Data...
+[03.13.21 19:18:10] Data Loaded
+[03.13.21 19:18:13] Epoch: 0
+[03.13.21 19:57:08] ====> Epoch: 0 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.13.21 19:57:08] Epoch: 1
+[03.13.21 20:25:40] ====> Epoch: 1 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.13.21 20:25:40] Epoch: 2
+[03.13.21 20:52:26] ====> Epoch: 2 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.13.21 20:52:26] Epoch: 3

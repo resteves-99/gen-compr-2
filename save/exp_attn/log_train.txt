@@ -1,0 +1,24 @@
+[03.13.21 19:12:44] Args: {
+    "batch_size": 16,
+    "lamda": 0.35,
+    "load_dir": null,
+    "lr": 3e-05,
+    "name": "exp_attn",
+    "num_epochs": 21,
+    "type": "ae_exp"
+}
+[03.13.21 19:12:44] Preparing Training Data...
+[03.13.21 19:12:47] Data Loaded
+[03.13.21 19:12:50] Epoch: 0
+[03.13.21 19:17:51] Args: {
+    "batch_size": 16,
+    "lamda": 0.35,
+    "load_dir": null,
+    "lr": 3e-05,
+    "name": "exp_attn",
+    "num_epochs": 21,
+    "type": "ae_exp"
+}
+[03.13.21 19:17:51] Preparing Training Data...
+[03.13.21 19:17:54] Data Loaded
+[03.13.21 19:17:56] Epoch: 0
