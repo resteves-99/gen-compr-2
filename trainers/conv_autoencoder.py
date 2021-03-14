@@ -23,10 +23,9 @@ def disc_loss(args, gen, disc, criterion, real_image):
     #get reconstructed images
     fake_images = gen(real_images).detach()
 
-    #reshape target so it is same size as reconstruction
-    tgt_size = [args.batch_size]
-    for elem in list(fake_images.shape[1:]): tgt_size.append(elem)
-    real_images = real_images[:,:,:fake_images.shape[2],:fake_images.shape[3]]
+    #reshape real and recon so they are same size
+    real_images = real_images[:,:,:216,:178]
+    fake_images = fake_images[:,:,:216,:178]
     assert real_images.shape == fake_images.shape
 
     #predict for both real and reconstructed images
@@ -46,6 +45,7 @@ def gen_loss(args, gen, disc, criterion, real_image):
 
     #generate fake images and make predictions on them
     fake_images = gen(real_images)
+    fake_images = fake_images[:,:,:216,:178]
     fake_preds = disc(fake_images)
 
     # reshape target so it is same size as reconstruction

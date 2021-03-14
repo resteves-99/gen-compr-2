@@ -20,20 +20,8 @@ class experimental_autoencoder(nn.Module):
             nn.Conv2d(32, 16, kernel_size=3, stride=2, padding=1),  # b, 32, 36, 30
             nn.ReLU(True),
         )
-        self.large_attention = GSA(
-            dim = 16,
-            dim_out = 16,
-            dim_key = 32,
-            heads = 8
-        )
         self.enc_layer_large = nn.Sequential(
             nn.Conv2d(16, 4, kernel_size=3, stride=1, padding=1), # b, 4, 36, 30
-        )
-        self.small_attention = GSA(
-            dim = 16,
-            dim_out = 16,
-            dim_key = 32,
-            heads = 8
         )
         self.enc_layer_small = nn.Sequential(
             nn.Conv2d(16, 8, kernel_size=3, stride=2, padding=1), # b, 8, 18, 15
@@ -43,25 +31,26 @@ class experimental_autoencoder(nn.Module):
         #initialize decoding layers
         self.dec_layer_1 = nn.Sequential(
             #only use this on smallest output
-            nn.ConvTranspose2d(8, 8, kernel_size=3, stride=2, padding=1, output_padding=1),# padding=1),# output_padding=1),  # b, 16, 36, 30
+            nn.Upsample(scale_factor=4, mode='nearest'), # b, 8 ,72, 60
+            nn.Conv2d(8, 8, kernel_size=2, stride=2), # b, 8, 36, 30
             nn.ReLU(True),
         )
         self.dec_layer_2 = nn.Sequential(
-            nn.ConvTranspose2d(12, 8, kernel_size=5, stride=2, padding=1), # padding=1),# output_padding=(1,0)),  # b, 8, 73, 61
+            nn.Upsample(scale_factor=4, mode='nearest'), # b, 12 ,144, 120
+            nn.Conv2d(12, 8, kernel_size=2, stride=2), # b, 8, 72, 60
             nn.ReLU(True),
         )
         self.dec_layer_3 = nn.Sequential(
-            nn.ConvTranspose2d(8, 3, kernel_size=5, stride=3, padding=(2,4)),  # b, 3, 217, 179
+            nn.Upsample(scale_factor=6, mode='nearest'), # b, 8, 432, 360
+            nn.Conv2d(8, 3, kernel_size=2, stride=2),  # b, 3, 216, 180
             nn.Tanh()
         )
 
     def encoder(self, x):
         out_1 = self.enc_layer_1(x)
         out_2 = self.enc_layer_2(out_1)
-        atn_large = self.large_attention(out_2)
-        embed_large = self.enc_layer_large(atn_large)
-        atn_small = self.small_attention(out_2)
-        embed_small = self.enc_layer_small(atn_small)
+        embed_large = self.enc_layer_large(out_2)
+        embed_small = self.enc_layer_small(out_2)
         embed = (embed_large, embed_small)
         # print(embed.shape)
         return embed
@@ -110,9 +99,6 @@ class experimental_discriminator(nn.Module):
         )
 
     def forward(self, x):
-        '''
-        x: batch, width, height, channel=1
-        '''
         x = self.conv1(x)
         x = self.conv2(x)
         x = self.conv3(x)

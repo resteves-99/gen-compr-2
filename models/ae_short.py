@@ -18,12 +18,6 @@ class small_autoencoder(nn.Module):
             nn.Conv2d(32, 16, kernel_size=3, stride=2, padding=1),  # b, 4, 36, 30
             nn.ReLU(True),
         )
-        self.small_attention = GSA(
-            dim = 16,
-            dim_out = 16,
-            dim_key = 32,
-            heads = 8
-        )
         self.enc_layer_small = nn.Sequential(
             nn.Conv2d(16, 12, kernel_size=3, stride=2, padding=1), # b, 8, 18, 15
         )
@@ -32,22 +26,24 @@ class small_autoencoder(nn.Module):
         #initialize decoding layers
         self.dec_layer_1 = nn.Sequential(
             #only use this on smallest output
-            nn.ConvTranspose2d(12, 12, kernel_size=3, stride=2, padding=1),# padding=1),# output_padding=1),  # b, 16, 35, 29
+            nn.Upsample(scale_factor=4, mode='nearest'), # b, 12 ,72, 60
+            nn.Conv2d(12, 12, kernel_size=2, stride=2), # b, 12, 36, 30
             nn.ReLU(True),
         )
         self.dec_layer_2 = nn.Sequential(
-            nn.ConvTranspose2d(12, 8, kernel_size=5, stride=2, padding=(1,1), output_padding=(1,1)), # padding=1),# output_padding=(1,0)),  # b, 8, 72, 60
+            nn.Upsample(scale_factor=4, mode='nearest'), # b, 12 ,144, 120
+            nn.Conv2d(12, 8, kernel_size=2, stride=2), # b, 8, 72, 60
             nn.ReLU(True),
         )
         self.dec_layer_3 = nn.Sequential(
-            nn.ConvTranspose2d(8, 3, kernel_size=5, stride=3, padding=(1,2)),  # b, 3, 216, 178
+            nn.Upsample(scale_factor=6, mode='nearest'), # b, 8, 432, 360
+            nn.Conv2d(8, 3, kernel_size=2, stride=2),  # b, 3, 216, 180
             nn.Tanh()
         )
 
     def encoder(self, x):
         out = self.enc_layer_1(x)
         out = self.enc_layer_2(out)
-        out = self.small_attention(out)
         small_embed = self.enc_layer_small(out)
         embed = small_embed
 

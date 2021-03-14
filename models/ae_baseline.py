@@ -14,34 +14,29 @@ class baseline_autoencoder(nn.Module):
             nn.ReLU(True),
         )
         self.enc_layer_2 = nn.Sequential(
-            nn.Conv2d(32, 16, kernel_size=3, stride=2),# padding=1), # b, 16, 35, 29
-        )
-        self.large_attention = GSA(
-            dim = 16,
-            dim_out = 16,
-            dim_key = 32,
-            heads = 8
+            nn.Conv2d(32, 16, kernel_size=3, stride=2, padding=1), # b, 16, 35, 29
         )
         self.enc_layer_large = nn.Sequential(
-            nn.Conv2d(16, 12, kernel_size=3, stride=1),# padding=1), # b, 12, 35, 29
+            nn.Conv2d(16, 12, kernel_size=3, stride=1, padding=1), # b, 12, 36, 30
         )
         #encode only to big encoding
 
 
         #initialize decoding layers
         self.dec_layer_2 = nn.Sequential(
-            nn.ConvTranspose2d(12, 8, kernel_size=5, stride=2, padding=(1,1), output_padding=(1,1)), # padding=1),# output_padding=(1,0)),  # b, 8, 73, 61
+            nn.Upsample(scale_factor=4, mode='nearest'), # b, 12 ,144, 120
+            nn.Conv2d(12, 8, kernel_size=2, stride=2), # b, 8, 72, 60
             nn.ReLU(True),
         )
         self.dec_layer_3 = nn.Sequential(
-            nn.ConvTranspose2d(8, 3, kernel_size=5, stride=3, padding=(1,2)),  # b, 3, 219, 185
+            nn.Upsample(scale_factor=6, mode='nearest'), # b, 8, 432, 360
+            nn.Conv2d(8, 3, kernel_size=2, stride=2),  # b, 3, 216, 180
             nn.Tanh()
         )
 
     def encoder(self, x):
         out = self.enc_layer_1(x)
         out = self.enc_layer_2(out)
-        out = self.large_attention(out)
         embed_large = self.enc_layer_large(out)
         embed = embed_large
         return embed
