@@ -20,12 +20,10 @@ from models.ae_baseline import baseline_autoencoder, baseline_discriminator
 from train import loss
 import numpy as np
 
-
 def main():
     args = get_eval_args()
 
     #set up directories
-
     save_dir = os.path.join('./save', args.name)
     log_dir = os.path.join(save_dir, 'logging')
     example_dir = os.path.join(save_dir, 'examples')
@@ -63,7 +61,6 @@ def main():
     disc_dir = os.path.join(save_dir, 'disc_model.pt')
     disc_model.load_state_dict(torch.load(disc_dir))
 
-    # log.info("Testing model in ", args.load_dir)
 
     if torch.cuda.is_available():
         gen_model.cuda()
@@ -101,7 +98,7 @@ def main():
         avg_fake_loss = total_d_loss[0]/index
         avg_real_loss = total_d_loss[1]/index
 
-        log.info(f"Across one test batch the generator loss had average discriminator loss  {avg_pred_loss} and MSE loss  {avg_mse_loss}\n"
+        log.info(f"Across one test batch the generator loss had average discriminator loss  {avg_pred_loss} and face MSE loss  {avg_mse_loss}\n"
                  f"The discriminator had average reconstructed image loss {avg_fake_loss} and average real image  loss {avg_real_loss}")
 
         #save the reconstructed example and the real example
