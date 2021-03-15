@@ -39,10 +39,10 @@ You can run my model with an added attention layer by switching to the attention
 
 # evalutation
 You can find the test log which includes test loss as well as example reconstruction images under ```./save/model_name/examples/```
-The first iteration of models is the ```[large_1, exp_1, small_3]```
+The first iteration of models is the ```[large_1, exp_1, small_1]```
 The improved base configuration group is ```[updated_model_large, updated_model_exp, updated_model_small]```
 The models with attention implemented are ```[large_attn, exp_attn, small_attn]```
-Finally, the models with upsampling are ```[large_upsample, exp_upsample, small_upsample]```
+Finally, the models with upsampling are ```[large_upsample, exp_upsample, small_upsample]```e
 
 # old readme
 
