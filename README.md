@@ -7,7 +7,7 @@ pip install facenet-pytorch
 ```
 
 # train
-to train an autoencoder model use the following command
+to train an adversarial autoencoder model use the following command
 ``` 
 python train.py --name model_name
 ```
@@ -20,25 +20,30 @@ The other possible options for training are given below
 ```
 
 # test
-to see an example output from the test set run \
+to see an example output from the test set run and to get face reconstruction loss use
 ```
-python eval.py --name model_name --load-dir dir_to_gen_model
+python eval.py --name model_name --load-dir model_dir
 ```
-unfortunately I haven't been saving my discriminator models to disk so I cant actually calculate loss on the test set.
 
-# examples
-you can find examples of reconstructed images under ```./save/model_name/examples/```
-I have three models which I have trained for about 30 iterations. One is the large baseline, one is the small baseline, and the last is the experimental model.\
-The names of these models are 'baseline_disc_1', 'exp_1', 'small_1' 
 
-# models so far
+# models
 ae_base is a baseline model which embeds images into a larger size than our experimental model.
 ae_exp is our experimental model.\
-ae_small is a baseline model which embeds images into a smaller size than our experimental mode.\\
+ae_small is a baseline model which embeds images into a smaller size than our experimental mode.
 
 
 All of these models are composed of an encoder, a decoder, and a discriminator.\
 The differences between these models is further specified in my writeup.
+
+You can run my model with upsampling as opposed to tranpose convolution by switching to the checkerboard fix branch.
+You can run my model with an added attention layer by switching to the attention branch
+
+# evalutation
+You can find the test log which includes test loss as well as example reconstruction images under ```./save/model_name/examples/```
+The first iteration of models is the ```[large_1, exp_1, small_3]```
+The improved base configuration group is ```[updated_model_large, updated_model_exp, updated_model_small]```
+The models with attention implemented are ```[large_attn, exp_attn, small_attn]```
+Finally, the models with upsampling are ```[large_upsample, exp_upsample, small_upsample]```
 
 # old readme
 
