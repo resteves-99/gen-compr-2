@@ -1,9 +1,0 @@
-[03.10.21 01:54:52] Args: {
-    "batch_size": 16,
-    "load_dir": "save/small_3/gen_model.pt",
-    "name": "small_3",
-    "split": "test",
-    "type": "ae_small"
-}
-[03.10.21 01:54:52] Preparing Testing Data...
-[03.10.21 01:54:54] Data Loaded
