@@ -28,20 +28,23 @@ class experimental_autoencoder(nn.Module):
         )
         #construct both a large and small embedding
 
-        #initialize decoding layers
+        # initialize decoding layers
         self.dec_layer_1 = nn.Sequential(
-            #only use this on smallest output
-            nn.Upsample(scale_factor=4, mode='nearest'), # b, 8 ,72, 60
-            nn.Conv2d(8, 8, kernel_size=2, stride=2), # b, 8, 36, 30
+            # only use this on smallest output
+            nn.Upsample(scale_factor=2, mode='nearest'),
+            nn.Upsample(scale_factor=2, mode='nearest'),  # b, 12 ,72, 60
+            nn.Conv2d(8, 8, kernel_size=2, stride=2),  # b, 12, 36, 30
             nn.ReLU(True),
         )
         self.dec_layer_2 = nn.Sequential(
-            nn.Upsample(scale_factor=4, mode='nearest'), # b, 12 ,144, 120
-            nn.Conv2d(12, 8, kernel_size=2, stride=2), # b, 8, 72, 60
+            nn.Upsample(scale_factor=2, mode='nearest'),
+            nn.Upsample(scale_factor=2, mode='nearest'),  # b, 12 ,144, 120
+            nn.Conv2d(12, 8, kernel_size=2, stride=2),  # b, 8, 72, 60
             nn.ReLU(True),
         )
         self.dec_layer_3 = nn.Sequential(
-            nn.Upsample(scale_factor=6, mode='nearest'), # b, 8, 432, 360
+            nn.Upsample(scale_factor=2, mode='nearest'),
+            nn.Upsample(scale_factor=3, mode='nearest'),  # b, 8, 432, 360
             nn.Conv2d(8, 3, kernel_size=2, stride=2),  # b, 3, 216, 180
             nn.Tanh()
         )
