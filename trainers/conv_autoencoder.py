@@ -40,7 +40,7 @@ def disc_loss(args, gen, disc, criterion, real_image):
 
     return fake_loss, real_loss
 
-def gen_loss(args, gen, disc, criterion, real_image):
+def gen_loss(args, gen, disc, criterion, real_image, face_seg = False):
     real_label = torch.ones(args.batch_size).cuda()
     real_images = copy.copy(real_image) #copy so we dont augment data accidently
 
@@ -56,7 +56,7 @@ def gen_loss(args, gen, disc, criterion, real_image):
 
     #compare predictions with target label
     pred_loss = criterion(pred = fake_preds, label = real_label)
-    mse_loss = criterion(real = real_images, recon = fake_images)
+    mse_loss = criterion(real = real_images, recon = fake_images, face_seg = face_seg)
 
     return pred_loss, mse_loss, fake_images
 

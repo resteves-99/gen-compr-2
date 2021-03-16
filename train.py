@@ -8,6 +8,7 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 from torchvision.utils import save_image
 from torchvision.datasets import CelebA, MNIST
+import numpy as np
 
 import sys
 import os
@@ -15,17 +16,44 @@ from args import get_train_args
 import utils
 import json
 import trainers.conv_autoencoder as conv_autoencoder
-
+from facenet_pytorch import MTCNN
+from PIL import Image
+import matplotlib.pyplot as plt
 
 #set up loss
 bce = nn.BCELoss()
 mse = nn.MSELoss()
-def loss(pred = None, label = None, real = None, recon = None):
+mt = None
+to_pil = transforms.ToPILImage()
+def loss(pred = None, label = None, real = None, recon = None, face_seg = False):
+    global mt
     loss = 0
     if pred is not None and label is not None:
         loss += bce(pred, label)
     if real is not None and recon is not None:
-        loss += mse(recon, real)
+        if face_seg:
+            #loss on faces only
+            if mt is None:
+                mt = MTCNN(image_size = list(real[0,:,:,:].squeeze().shape)[0])
+            height, width = list(real[0,0,:,:].squeeze().shape)
+            for batch_idx in range(real.shape[0]):
+                real_img = real[batch_idx, :, :, :].squeeze() #get one image
+                real_img_cpy = real_img
+                real_img_cpy = to_pil(real_img_cpy)
+                face_tensor, prob = mt.detect(real_img_cpy) #detect faces
+                if face_tensor is not None: #if face found make ints, use only most likely face
+                    face_tensor = np.squeeze(face_tensor.astype(int)[0])
+                else:#if face not found use entire picture
+                    face_tensor = [0, 0, width, height]
+                real_crop = real_img[:, max(face_tensor[0]-25,0):min(face_tensor[3]+25, height), max(face_tensor[1]-25, 0): min(face_tensor[2]+25,width)]
+
+                recon_img = recon[batch_idx, :, :, :].squeeze()
+                #use the same face coordinates for the reconstructed image
+                recon_crop = recon_img[:, max(face_tensor[0]-25,0):min(face_tensor[3]+25, height), max(face_tensor[1]-25, 0): min(face_tensor[2]+25,width)]
+
+                loss += mse(recon_crop, real_crop)
+        else:
+            loss += mse(recon, real)
     return loss
 
 def main():

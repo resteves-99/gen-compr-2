@@ -11,7 +11,7 @@ def get_train_args():
 
     parser.add_argument('--load_dir', type=str, default=None)
 
-    parser.add_argument('--name', type=str, default=None)
+    parser.add_argument('--name', type=str, default='test')
     args = parser.parse_args()
     return args
 
