@@ -70,7 +70,7 @@ def main():
         disc_model.cuda()
 
     #Loop over the test set
-    with torch.enable_grad(), tqdm(total=778128) as progress_bar:
+    with torch.enable_grad(), tqdm(total=30*args.batch_size) as progress_bar:
         torch.autograd.set_detect_anomaly(True)
         total_g_loss = np.array([0.0,0.0])
         total_d_loss = np.array([0.0,0.0])
@@ -94,14 +94,17 @@ def main():
             total_g_loss += (float(pred_loss),float(mse_loss))
             total_d_loss += (float(fake_loss),float(real_loss))
 
+            if index == 30:
+                break
             index += 1
+
 
         avg_pred_loss = total_g_loss[0]/index
         avg_mse_loss = total_g_loss[1]/index
         avg_fake_loss = total_d_loss[0]/index
         avg_real_loss = total_d_loss[1]/index
 
-        log.info(f"Across one test batch the generator loss had average discriminator loss  {avg_pred_loss} and MSE loss  {avg_mse_loss}\n"
+        log.info(f"Across 30 test batches the generator loss had average discriminator loss  {avg_pred_loss} and facial MSE loss  {avg_mse_loss}\n"
                  f"The discriminator had average reconstructed image loss {avg_fake_loss} and average real image  loss {avg_real_loss}")
 
         #save the reconstructed example and the real example
