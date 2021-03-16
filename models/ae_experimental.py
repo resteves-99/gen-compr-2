@@ -20,20 +20,8 @@ class experimental_autoencoder(nn.Module):
             nn.Conv2d(32, 16, kernel_size=3, stride=2, padding=1),  # b, 32, 36, 30
             nn.ReLU(True),
         )
-        self.large_attention = GSA(
-            dim = 16,
-            dim_out = 16,
-            dim_key = 32,
-            heads = 8
-        )
         self.enc_layer_large = nn.Sequential(
             nn.Conv2d(16, 4, kernel_size=3, stride=1, padding=1), # b, 4, 36, 30
-        )
-        self.small_attention = GSA(
-            dim = 16,
-            dim_out = 16,
-            dim_key = 32,
-            heads = 8
         )
         self.enc_layer_small = nn.Sequential(
             nn.Conv2d(16, 8, kernel_size=3, stride=2, padding=1), # b, 8, 18, 15
