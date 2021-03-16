@@ -86,7 +86,7 @@ def main():
             fake_loss, real_loss = disc_loss(args, gen_model, disc_model, loss, real_image)
 
             # calc gen loss and train
-            pred_loss, mse_loss, recon_batch = gen_loss(args, gen_model, disc_model, loss, real_image)
+            pred_loss, mse_loss, recon_batch = gen_loss(args, gen_model, disc_model, loss, real_image, face_seg = True)
 
             input_ids = batch_idx  # batch['input_ids'].to('cuda')
             progress_bar.update(index)
@@ -103,7 +103,7 @@ def main():
         avg_fake_loss = total_d_loss[0]/index
         avg_real_loss = total_d_loss[1]/index
 
-        log.info(f"Across one test batch the generator loss had average discriminator loss  {avg_pred_loss} and MSE loss  {avg_mse_loss}\n"
+        log.info(f"Across one test batch the generator loss had average discriminator loss  {avg_pred_loss} and faciel MSE loss  {avg_mse_loss}\n"
                  f"The discriminator had average reconstructed image loss {avg_fake_loss} and average real image  loss {avg_real_loss}")
 
         #save the reconstructed example and the real example
