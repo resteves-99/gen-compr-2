@@ -70,7 +70,7 @@ def main():
         disc_model.cuda()
 
     #Loop over the test set
-    with torch.enable_grad(), tqdm(total=778128) as progress_bar:
+    with torch.enable_grad(), tqdm(total=15*args.batch_size) as progress_bar:
         torch.autograd.set_detect_anomaly(True)
         total_g_loss = np.array([0.0,0.0])
         total_d_loss = np.array([0.0,0.0])
@@ -94,6 +94,8 @@ def main():
             total_g_loss += (float(pred_loss),float(mse_loss))
             total_d_loss += (float(fake_loss),float(real_loss))
 
+            if index == 30:
+                break
             index += 1
 
         avg_pred_loss = total_g_loss[0]/index
