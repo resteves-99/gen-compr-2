@@ -2,9 +2,9 @@ import torch.nn as nn
 import torch
 from gsa_pytorch import GSA
 
-class baseline_autoencoder(nn.Module):
+class large_autoencoder(nn.Module):
     def __init__(self, args):
-        super(baseline_autoencoder, self).__init__()
+        super(large_autoencoder, self).__init__()
 
         self.args = args
 
@@ -51,9 +51,9 @@ class baseline_autoencoder(nn.Module):
         recon_x = self.decoder(z)
         return recon_x
 
-class baseline_discriminator(nn.Module):
+class large_discriminator(nn.Module):
     def __init__(self, args):
-        super(baseline_discriminator, self).__init__()
+        super(large_discriminator, self).__init__()
 
         #construct discriminator
         self.conv1 = nn.Sequential(

@@ -10,7 +10,8 @@ from torchvision.utils import save_image
 from tqdm import tqdm
 from models.ae_experimental import experimental_autoencoder, experimental_discriminator
 from models.ae_short import small_autoencoder, small_discriminator
-from models.ae_baseline import baseline_autoencoder, baseline_discriminator
+from models.ae_large import large_autoencoder, large_discriminator
+from models.ae_base import base_autoencoder, base_discriminator
 import os
 import copy
 
@@ -63,8 +64,11 @@ def gen_loss(args, gen, disc, criterion, real_image, face_seg = False):
 
 def train(args, train_dataloader, val_dataloader, criterion, log, example_dir, save_dir):
     #init model based on type of model
-    gen_model = baseline_autoencoder(args)
-    disc_model = baseline_discriminator(args)
+    gen_model = base_autoencoder(args)
+    disc_model = base_discriminator(args)
+    if args.type == 'ae_large':
+        gen_model = large_autoencoder(args)
+        disc_model = large_discriminator(args)
     if args.type == 'ae_exp':
         gen_model = experimental_autoencoder(args)
         disc_model = experimental_discriminator(args)

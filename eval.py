@@ -16,7 +16,8 @@ from args import get_eval_args
 from tqdm import tqdm
 from models.ae_experimental import experimental_autoencoder, experimental_discriminator
 from models.ae_short import small_autoencoder, small_discriminator
-from models.ae_baseline import baseline_autoencoder, baseline_discriminator
+from models.ae_large import large_autoencoder, large_discriminator
+from models.ae_base import base_autoencoder, base_discriminator
 from train import loss
 import numpy as np
 
@@ -47,10 +48,12 @@ def main():
     log.info("Data Loaded")
 
     #load model
-    if args.type == 'ae_base':
-        gen_model = baseline_autoencoder(args)
-        disc_model = baseline_discriminator(args)
-    elif args.type == 'ae_exp':
+    gen_model = base_autoencoder(args)
+    disc_model = base_discriminator(args)
+    if args.type == 'ae_large':
+        gen_model = large_autoencoder(args)
+        disc_model = large_discriminator(args)
+    if args.type == 'ae_exp':
         gen_model = experimental_autoencoder(args)
         disc_model = experimental_discriminator(args)
     elif args.type == 'ae_small':
