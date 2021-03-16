@@ -1,0 +1,28 @@
+[03.16.21 02:34:24] Args: {
+    "batch_size": 32,
+    "name": "small_upsample",
+    "split": "test",
+    "type": "ae_small"
+}
+[03.16.21 02:34:24] Preparing Testing Data...
+[03.16.21 02:34:26] Data Loaded
+[03.16.21 02:40:38] Args: {
+    "batch_size": 32,
+    "name": "small_upsample",
+    "split": "test",
+    "type": "ae_small"
+}
+[03.16.21 02:40:38] Preparing Testing Data...
+[03.16.21 02:40:40] Data Loaded
+[03.16.21 02:40:45] Across one test batch the generator loss had average discriminator loss  40.312803204854326 and MSE loss  0.29773565083742143
+The discriminator had average reconstructed image loss 2.184086647629738 and average real image  loss 0.02067275131979294
+[03.16.21 02:49:54] Args: {
+    "batch_size": 32,
+    "name": "small_upsample",
+    "split": "test",
+    "type": "ae_small"
+}
+[03.16.21 02:49:54] Preparing Testing Data...
+[03.16.21 02:49:56] Data Loaded
+[03.16.21 02:50:59] Across one test batch the generator loss had average discriminator loss  37.41765200297038 and faciel MSE loss  8.049133539199829
+The discriminator had average reconstructed image loss 2.545387629667918 and average real image  loss 0.00378227684821996

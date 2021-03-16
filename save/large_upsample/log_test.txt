@@ -1,0 +1,26 @@
+[03.16.21 01:52:57] Args: {
+    "batch_size": 16,
+    "name": "large_upsample",
+    "split": "test",
+    "type": "ae_base"
+}
+[03.16.21 01:52:57] Preparing Testing Data...
+[03.16.21 01:52:59] Data Loaded
+[03.16.21 02:34:37] Args: {
+    "batch_size": 32,
+    "name": "large_upsample",
+    "split": "test",
+    "type": "ae_base"
+}
+[03.16.21 02:34:37] Preparing Testing Data...
+[03.16.21 02:34:39] Data Loaded
+[03.16.21 02:50:02] Args: {
+    "batch_size": 32,
+    "name": "large_upsample",
+    "split": "test",
+    "type": "ae_base"
+}
+[03.16.21 02:50:02] Preparing Testing Data...
+[03.16.21 02:50:04] Data Loaded
+[03.16.21 02:51:03] Across one test batch the generator loss had average discriminator loss  14.936463101704915 and faciel MSE loss  12.700804805755615
+The discriminator had average reconstructed image loss 7.640574930671088e-07 and average real image  loss 0.0
