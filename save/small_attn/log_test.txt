@@ -1,0 +1,34 @@
+[03.16.21 01:56:15] Args: {
+    "batch_size": 16,
+    "name": "small_attn",
+    "split": "test",
+    "type": "ae_small"
+}
+[03.16.21 01:56:15] Preparing Testing Data...
+[03.16.21 01:56:17] Data Loaded
+[03.16.21 02:04:22] Args: {
+    "batch_size": 32,
+    "name": "small_attn",
+    "split": "test",
+    "type": "ae_small"
+}
+[03.16.21 02:04:22] Preparing Testing Data...
+[03.16.21 02:04:24] Data Loaded
+[03.16.21 02:05:50] Args: {
+    "batch_size": 32,
+    "name": "small_attn",
+    "split": "test",
+    "type": "ae_small"
+}
+[03.16.21 02:05:50] Preparing Testing Data...
+[03.16.21 02:05:51] Data Loaded
+[03.16.21 02:21:27] Args: {
+    "batch_size": 32,
+    "name": "small_attn",
+    "split": "test",
+    "type": "ae_small"
+}
+[03.16.21 02:21:27] Preparing Testing Data...
+[03.16.21 02:21:29] Data Loaded
+[03.16.21 02:22:54] Across 30 test batches the generator loss had average discriminator loss  5.300619077682495 and facial MSE loss  6.518129364649455
+The discriminator had average reconstructed image loss 0.006366392193982998 and average real image  loss 0.016966592927063574
