@@ -16,6 +16,7 @@ import utils
 import json
 import trainers.conv_autoencoder as conv_autoencoder
 
+import numpy as np
 from facenet_pytorch import MTCNN
 from PIL import Image
 
