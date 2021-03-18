@@ -8,3 +8,13 @@
 [03.16.21 18:13:54] Data Loaded
 [03.16.21 18:14:13] Across 30 test batches the generator loss had average discriminator loss  3.2655689001083372 and face MSE loss  0.18420387854178746
 The discriminator had average reconstructed image loss 0.11313109782834847 and average real image  loss 0.20528420321643354
+[03.18.21 05:47:44] Args: {
+    "batch_size": 16,
+    "name": "updated_model_small",
+    "split": "test",
+    "type": "ae_small"
+}
+[03.18.21 05:47:44] Preparing Testing Data...
+[03.18.21 05:47:46] Data Loaded
+[03.18.21 05:47:49] Across 30 test batches the generator loss had average discriminator loss  inf and face MSE loss  inf
+The discriminator had average reconstructed image loss inf and average real image  loss inf
