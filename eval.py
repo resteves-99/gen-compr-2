@@ -44,7 +44,7 @@ def main():
         # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ])
     test_dataset = CelebA('./data', split = args.split, transform=img_transform, download=True)
-    test_dataloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=True)
+    test_dataloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False)
     log.info("Data Loaded")
 
     #load model
@@ -94,7 +94,7 @@ def main():
             total_g_loss += (float(pred_loss),float(mse_loss))
             total_d_loss += (float(fake_loss),float(real_loss))
 
-            if index == 30:
+            if index == 0:
                 break
             index += 1
 
