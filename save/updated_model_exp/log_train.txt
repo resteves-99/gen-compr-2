@@ -1,53 +1,70 @@
-[03.10.21 19:01:09] Args: {
+[03.16.21 03:02:35] Args: {
+    "batch_size": 16,
+    "lamda": 0.35,
+    "load_dir": null,
+    "lr": 3e-05,
+    "name": "updated_model_exp",
+    "num_epochs": 3,
+    "type": "ae_exp"
+}
+[03.16.21 03:02:35] Preparing Training Data...
+[03.16.21 03:02:39] Data Loaded
+[03.16.21 03:02:42] Epoch: 0
+[03.16.21 03:24:32] ====> Epoch: 0 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 03:24:33] Epoch: 1
+[03.16.21 03:46:21] ====> Epoch: 1 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 03:46:21] Epoch: 2
+[03.16.21 04:08:39] ====> Epoch: 2 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 04:53:53] Args: {
     "batch_size": 16,
     "lamda": 0.35,
     "load_dir": null,
     "lr": 3e-05,
     "name": "updated_model_exp",
     "num_epochs": 21,
-    "type": "ae_base"
+    "type": "ae_exp"
 }
-[03.10.21 19:01:09] Preparing Training Data...
-[03.10.21 19:01:13] Data Loaded
-[03.10.21 19:01:16] Epoch: 0
-[03.10.21 19:30:36] ====> Epoch: 0 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.10.21 19:30:37] Epoch: 1
-[03.10.21 19:58:42] ====> Epoch: 1 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.10.21 19:58:42] Epoch: 2
-[03.10.21 20:26:37] ====> Epoch: 2 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.10.21 20:26:37] Epoch: 3
-[03.10.21 20:54:39] ====> Epoch: 3 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.10.21 20:54:39] Epoch: 4
-[03.10.21 21:22:34] ====> Epoch: 4 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.10.21 21:22:34] Epoch: 5
-[03.10.21 21:50:40] ====> Epoch: 5 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.10.21 21:50:40] Epoch: 6
-[03.10.21 22:18:33] ====> Epoch: 6 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.10.21 22:18:33] Epoch: 7
-[03.10.21 22:46:26] ====> Epoch: 7 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.10.21 22:46:26] Epoch: 8
-[03.10.21 23:14:32] ====> Epoch: 8 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.10.21 23:14:32] Epoch: 9
-[03.10.21 23:42:30] ====> Epoch: 9 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.10.21 23:42:30] Epoch: 10
-[03.11.21 00:10:18] ====> Epoch: 10 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.11.21 00:10:18] Epoch: 11
-[03.11.21 00:38:21] ====> Epoch: 11 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.11.21 00:38:21] Epoch: 12
-[03.11.21 01:06:28] ====> Epoch: 12 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.11.21 01:06:28] Epoch: 13
-[03.11.21 01:34:18] ====> Epoch: 13 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.11.21 01:34:18] Epoch: 14
-[03.11.21 02:02:20] ====> Epoch: 14 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.11.21 02:02:20] Epoch: 15
-[03.11.21 02:30:21] ====> Epoch: 15 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.11.21 02:30:22] Epoch: 16
-[03.11.21 02:58:16] ====> Epoch: 16 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.11.21 02:58:16] Epoch: 17
-[03.11.21 03:26:07] ====> Epoch: 17 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.11.21 03:26:07] Epoch: 18
-[03.11.21 03:54:13] ====> Epoch: 18 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.11.21 03:54:13] Epoch: 19
-[03.11.21 04:22:03] ====> Epoch: 19 Average gen loss: 0.0000 Average Dis Loss: 0.0000
-[03.11.21 04:22:03] Epoch: 20
-[03.11.21 04:49:23] ====> Epoch: 20 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 04:53:53] Preparing Training Data...
+[03.16.21 04:53:57] Data Loaded
+[03.16.21 04:53:59] Epoch: 0
+[03.16.21 05:20:39] ====> Epoch: 0 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 05:20:40] Epoch: 1
+[03.16.21 05:52:33] ====> Epoch: 1 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 05:52:33] Epoch: 2
+[03.16.21 06:24:25] ====> Epoch: 2 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 06:24:25] Epoch: 3
+[03.16.21 06:56:15] ====> Epoch: 3 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 06:56:15] Epoch: 4
+[03.16.21 07:28:10] ====> Epoch: 4 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 07:28:10] Epoch: 5
+[03.16.21 08:00:04] ====> Epoch: 5 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 08:00:04] Epoch: 6
+[03.16.21 08:31:59] ====> Epoch: 6 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 08:31:59] Epoch: 7
+[03.16.21 09:03:51] ====> Epoch: 7 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 09:03:51] Epoch: 8
+[03.16.21 09:35:40] ====> Epoch: 8 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 09:35:40] Epoch: 9
+[03.16.21 10:07:31] ====> Epoch: 9 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 10:07:31] Epoch: 10
+[03.16.21 10:39:23] ====> Epoch: 10 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 10:39:24] Epoch: 11
+[03.16.21 11:11:15] ====> Epoch: 11 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 11:11:15] Epoch: 12
+[03.16.21 11:43:09] ====> Epoch: 12 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 11:43:09] Epoch: 13
+[03.16.21 12:15:01] ====> Epoch: 13 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 12:15:01] Epoch: 14
+[03.16.21 12:47:15] ====> Epoch: 14 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 12:47:15] Epoch: 15
+[03.16.21 13:19:11] ====> Epoch: 15 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 13:19:12] Epoch: 16
+[03.16.21 13:51:00] ====> Epoch: 16 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 13:51:00] Epoch: 17
+[03.16.21 14:22:51] ====> Epoch: 17 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 14:22:51] Epoch: 18
+[03.16.21 14:54:38] ====> Epoch: 18 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 14:54:38] Epoch: 19
+[03.16.21 15:19:04] ====> Epoch: 19 Average gen loss: 0.0000 Average Dis Loss: 0.0000
+[03.16.21 15:19:04] Epoch: 20
+[03.16.21 15:32:57] ====> Epoch: 20 Average gen loss: 0.0000 Average Dis Loss: 0.0000
