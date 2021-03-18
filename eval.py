@@ -94,7 +94,7 @@ def main():
             total_g_loss += (float(pred_loss),float(mse_loss))
             total_d_loss += (float(fake_loss),float(real_loss))
 
-            if index == 0:
+            if index == 31:
                 break
             index += 1
 
